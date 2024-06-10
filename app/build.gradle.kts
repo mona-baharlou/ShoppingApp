@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.org.jetbrains.kotlin.kapt)
+
 }
 
 android {
@@ -66,4 +68,36 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    //LiveData-State
+    implementation(libs.androidx.runtime.livedata)
+
+    //Coil
+    // implementation(libs.coil.compose)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    //Koin
+    implementation(libs.koin.android)
+
+    //Parse Platform
+    implementation(libs.parse)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+
+    //Room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.room.compiler)
+
+    //System UI Controller
+    //implementation(libs.accompanist.systemcontroller)
+
+
 }
