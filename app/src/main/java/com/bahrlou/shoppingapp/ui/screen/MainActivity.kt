@@ -14,25 +14,34 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.KEY_CATEGORY_ARG
 import com.bahrlou.shoppingapp.util.KEY_PRODUCT_ARG
 import com.bahrlou.shoppingapp.util.MyScreens
+import dev.burnoo.cokoin.Koin
+import dev.burnoo.cokoin.navigation.KoinNavHost
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ShoppingAppTheme {
-                Surface(
-                    color = BackgroundMain, modifier = Modifier.fillMaxSize()
-                ) {
-                    ShoppingUi()
+
+            Koin(appDeclaration = { shoppingModules }) {
+
+                ShoppingAppTheme {
+                    Surface(
+                        color = BackgroundMain, modifier = Modifier.fillMaxSize()
+                    ) {
+                        ShoppingUi()
+                    }
                 }
+
             }
+
         }
     }
 }
@@ -43,7 +52,7 @@ fun ShoppingUi() {
 
     val navController = rememberNavController()
 
-    NavHost(
+    KoinNavHost(
         navController = navController,
         startDestination = MyScreens.IntroScreen.route
     ) {

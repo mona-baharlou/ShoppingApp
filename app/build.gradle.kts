@@ -83,7 +83,11 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //Koin
-    implementation(libs.koin.android)
+    //implementation(libs.koin.android)
+    implementation (libs.cokoin)
+    implementation (libs.cokoin.android.viewmodel)
+    implementation (libs.cokoin.android.navigation)
+
 
     //Parse Platform
     //implementation(libs.parse)

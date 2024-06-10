@@ -20,10 +20,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import dev.burnoo.cokoin.navigation.getNavController
 
 
 @Composable
 fun IntroScreen() {
+
+    //val navigation = getNavController()
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(id = R.drawable.intro_img),
