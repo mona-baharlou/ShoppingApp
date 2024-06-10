@@ -1,4 +1,4 @@
-package com.bahrlou.shoppingapp
+package com.bahrlou.shoppingapp.ui.screen
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
