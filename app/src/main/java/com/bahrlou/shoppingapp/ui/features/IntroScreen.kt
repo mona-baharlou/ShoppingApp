@@ -20,13 +20,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.navigation.getNavController
 
 
 @Composable
 fun IntroScreen() {
 
-    //val navigation = getNavController()
+    val navigation = getNavController()
+
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(id = R.drawable.intro_img),
@@ -44,14 +46,18 @@ fun IntroScreen() {
 
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
-            onClick = { }) {
+            onClick = {
+                navigation.navigate(MyScreens.SignUpScreen.route)
+            }) {
             Text(text = "Sign Up", color = Color.White)
         }
 
 
         Button(modifier = Modifier.fillMaxWidth(0.7f),
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-            onClick = {}
+            onClick = {
+                navigation.navigate(MyScreens.SignInScreen.route)
+            }
         ) {
             Text(text = "Sign In", color = Color.Blue)
         }
