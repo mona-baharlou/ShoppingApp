@@ -46,7 +46,7 @@ fun ShoppingUi() {
             ProductScreen(it.arguments!!.getInt("productId", -1)) //productId
         }
 
-        composable(route = "categoryScreen", arguments = listOf(navArgument("categoryName") {
+        composable(route = "categoryScreen/{categoryName}", arguments = listOf(navArgument("categoryName") {
             type = NavType.StringType
         })) {
             CategoryScreen(it.arguments!!.getString("categoryName", "null"))
