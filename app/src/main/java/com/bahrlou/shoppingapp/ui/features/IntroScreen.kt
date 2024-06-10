@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -19,14 +18,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.bahrlou.shoppingapp.R
-import com.bahrlou.shoppingapp.ui.screen.ShoppingUi
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 
 
 @Composable
 fun IntroScreen() {
-
     Image(
         modifier = Modifier.fillMaxSize(),
         painter = painterResource(id = R.drawable.intro_img),
@@ -37,7 +34,7 @@ fun IntroScreen() {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.75f),
+            .fillMaxHeight(0.78f),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
     ) {
@@ -65,7 +62,7 @@ fun IntroScreen() {
 fun IntroPreview() {
     ShoppingAppTheme {
         Surface(
-            color = BackgroundMain, modifier = Modifier.fillMaxSize()
+            color = BackgroundMain
         ) {
             IntroScreen()
         }
