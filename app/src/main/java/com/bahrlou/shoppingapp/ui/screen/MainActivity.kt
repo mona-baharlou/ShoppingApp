@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.signUp.SignUpScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.KEY_CATEGORY_ARG
@@ -120,11 +121,6 @@ fun SignInScreen() {
 
 }
 
-@Composable
-fun SignUpScreen() {
-
-
-}
 
 @Composable
 fun CartScreen() {
