@@ -20,8 +20,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 private val LightColorScheme = lightColorScheme(
     primary = Blue,
+    secondary = Blue,
     background = BackgroundMain,
-    surface = CardBackground,
+    //surface = CardBackground,
+
     //secondary = PurpleGrey40,
     //tertiary = Pink40
 
@@ -66,6 +68,6 @@ fun ShoppingAppTheme(
 
     val systemUiController = rememberSystemUiController()
     //for statusBar color
-    systemUiController.setSystemBarsColor(BackgroundMain)
+    systemUiController.setSystemBarsColor(Blue)
 
 }
