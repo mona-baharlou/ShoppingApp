@@ -4,20 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import com.bahrlou.shoppingapp.util.KEY_CATEGORY_ARG
+import com.bahrlou.shoppingapp.util.KEY_PRODUCT_ARG
+import com.bahrlou.shoppingapp.util.MyScreens
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent { ShoppingAppTheme { ShoppingUi() } }
+        setContent {
+            ShoppingAppTheme {
+                Surface(
+                    color = BackgroundMain, modifier = Modifier.fillMaxSize()
+                ) {
+                    ShoppingUi()
+                }
+            }
+        }
     }
 }
 
@@ -29,50 +45,53 @@ fun ShoppingUi() {
 
     NavHost(
         navController = navController,
-        startDestination = "mainScreen"
+        startDestination = MyScreens.IntroScreen.route
     ) {
 
-        composable("mainScreen") {
+        composable(MyScreens.MainScreen.route) {
             MainScreen()
         }
 
 
         composable(
-            route = "productScreen/{productId}",
-            arguments = listOf(navArgument("productId") {
+            route = "${MyScreens.ProductScreen.route}/$KEY_PRODUCT_ARG",
+            arguments = listOf(navArgument(KEY_PRODUCT_ARG) {
                 type = NavType.IntType
             })
         ) {
-            ProductScreen(it.arguments!!.getInt("productId", -1)) //productId
+            ProductScreen(it.arguments!!.getInt(KEY_PRODUCT_ARG, -1)) //productId
         }
 
-        composable(route = "categoryScreen/{categoryName}", arguments = listOf(navArgument("categoryName") {
-            type = NavType.StringType
-        })) {
-            CategoryScreen(it.arguments!!.getString("categoryName", "null"))
+        composable(
+            route = "${MyScreens.CategoryScreen.route}/$KEY_CATEGORY_ARG",
+            arguments = listOf(navArgument(KEY_CATEGORY_ARG) {
+                type = NavType.StringType
+            })
+        ) {
+            CategoryScreen(it.arguments!!.getString(KEY_CATEGORY_ARG, "null"))
         }
 
-        composable("profileScreen") {
+        composable(MyScreens.ProfileScreen.route) {
             ProfileScreen()
         }
 
-        composable("cartScreen") {
+        composable(MyScreens.CartScreen.route) {
             CartScreen()
         }
 
-        composable("signUpScreen") {
+        composable(MyScreens.SignUpScreen.route) {
             SignUpScreen()
         }
 
-        composable("signInScreen") {
+        composable(MyScreens.SignInScreen.route) {
             SignInScreen()
         }
 
-        composable("introScreen") {
+        composable(MyScreens.IntroScreen.route) {
             IntroScreen()
         }
 
-        composable("noInternetScreen") {
+        composable(MyScreens.NoInternetScreen.route) {
             NoInternetScreen()
         }
 
@@ -85,11 +104,6 @@ fun NoInternetScreen() {
 
 }
 
-@Composable
-fun IntroScreen() {
-
-
-}
 
 @Composable
 fun SignInScreen() {
@@ -134,6 +148,12 @@ fun MainScreen() {
 
 @Preview(showBackground = true)
 @Composable
-fun ShoppingPreview() {
-    ShoppingAppTheme { ShoppingUi() }
+fun DefaultPreview() {
+    ShoppingAppTheme {
+        Surface(
+            color = BackgroundMain, modifier = Modifier.fillMaxSize()
+        ) {
+            ShoppingUi()
+        }
+    }
 }
