@@ -17,31 +17,18 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContent {
-            ShoppingAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
+        setContent { ShoppingAppTheme { ShoppingUi() } }
     }
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun ShoppingUi() {
+
 }
+
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
-    ShoppingAppTheme {
-        Greeting("Android")
-    }
+fun ShoppingPreview() {
+    ShoppingAppTheme { ShoppingUi() }
 }

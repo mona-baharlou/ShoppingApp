@@ -76,7 +76,7 @@ dependencies {
     implementation(libs.androidx.runtime.livedata)
 
     //Coil
-    // implementation(libs.coil.compose)
+     implementation(libs.coil.compose)
 
     //Coroutines
     implementation(libs.kotlinx.coroutines.android)
@@ -86,7 +86,7 @@ dependencies {
     implementation(libs.koin.android)
 
     //Parse Platform
-    implementation(libs.parse)
+    //implementation(libs.parse)
 
     //Retrofit
     implementation(libs.retrofit)
@@ -97,7 +97,7 @@ dependencies {
     kapt(libs.room.compiler)
 
     //System UI Controller
-    //implementation(libs.accompanist.systemcontroller)
+    implementation (libs.accompanist.systemuicontroller)
 
 
 }
