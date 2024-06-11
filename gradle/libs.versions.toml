@@ -2,7 +2,7 @@
 accompanistSystemuicontroller = "0.17.0"
 agp = "8.2.0"
 coilCompose = "2.0.0-rc02"
-cokoin = "0.3.2"
+cokoin = "1.0.0"
 converterGson = "2.11.0"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
@@ -11,11 +11,14 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 kotlinxCoroutinesAndroid = "1.7.3"
 lifecycleRuntimeKtx = "2.8.1"
+
+compose_version="1.6.7"
+material3="1.2.1"
 activityCompose = "1.9.0"
-composeBom = "2024.05.00"
-lifecycleViewmodelKtx = "2.8.1"
 navigationCompose = "2.7.7"
+
 org-jetbrains-kotlin-android = "1.8.0"
+lifecycleViewmodelKtx = "2.8.1"
 retrofit = "2.11.0"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
@@ -40,14 +43,14 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
-androidx-ui = { group = "androidx.compose.ui", name = "ui" }
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+
+androidx-ui = { group = "androidx.compose.ui", name = "ui" , version.ref="compose_version"}
+androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics",version.ref="compose_version" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" ,version.ref="compose_version"}
+androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref="compose_version" }
+androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest",version.ref="compose_version" }
+androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref="compose_version" }
+androidx-material3 = { group = "androidx.compose.material3", name = "material3",version.ref="material3" }
 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
