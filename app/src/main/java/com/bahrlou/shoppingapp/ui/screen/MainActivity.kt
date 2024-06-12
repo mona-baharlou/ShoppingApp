@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.signIn.SignInScreen
 import com.bahrlou.shoppingapp.ui.signUp.SignUpScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
@@ -115,14 +116,6 @@ fun NoInternetScreen() {
 
 
 }
-
-
-@Composable
-fun SignInScreen() {
-
-
-}
-
 
 @Composable
 fun CartScreen() {

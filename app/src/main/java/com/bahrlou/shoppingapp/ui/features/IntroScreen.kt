@@ -48,12 +48,7 @@ fun IntroScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
             onClick = {
-                try {
                     navigation.navigate(MyScreens.SignUpScreen.route)
-                }
-                catch (ex:Exception){
-                    Log.d("introoo ", "IntroScreen: ex : ${ex.message}")
-                }
             }) {
             Text(text = "Sign Up", color = Color.White)
         }
