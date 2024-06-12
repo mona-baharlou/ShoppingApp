@@ -1,7 +1,7 @@
 package com.bahrlou.shoppingapp.di
 
-import com.bahrlou.shoppingapp.ui.signIn.SignInViewModel
-import com.bahrlou.shoppingapp.ui.signUp.SignUpViewModel
+import com.bahrlou.shoppingapp.ui.features.signIn.SignInViewModel
+import com.bahrlou.shoppingapp.ui.features.signUp.SignUpViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 

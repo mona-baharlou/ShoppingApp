@@ -1,4 +1,4 @@
-package com.bahrlou.shoppingapp.ui.signIn
+package com.bahrlou.shoppingapp.ui.features.signIn
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData

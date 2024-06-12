@@ -1,4 +1,4 @@
-package com.bahrlou.shoppingapp.ui.screen
+package com.bahrlou.shoppingapp.ui.features.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,15 +9,12 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
-import com.bahrlou.shoppingapp.ui.signIn.SignInScreen
-import com.bahrlou.shoppingapp.ui.signUp.SignUpScreen
+import com.bahrlou.shoppingapp.ui.features.signIn.SignInScreen
+import com.bahrlou.shoppingapp.ui.features.signUp.SignUpScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.KEY_CATEGORY_ARG

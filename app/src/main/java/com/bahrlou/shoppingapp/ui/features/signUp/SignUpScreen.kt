@@ -1,4 +1,4 @@
-package com.bahrlou.shoppingapp.ui.signIn
+package com.bahrlou.shoppingapp.ui.features.signUp
 
 import android.content.Context
 import android.util.Patterns
@@ -60,13 +60,13 @@ import dev.burnoo.cokoin.viewmodel.getViewModel
 
 @Preview(showBackground = true)
 @Composable
-fun SignInScreenPreview() {
+fun SignUpScreenPreview() {
     ShoppingAppTheme {
         Surface(
             color = BackgroundMain,
             modifier = Modifier.fillMaxSize()
         ) {
-            SignInScreen()
+            SignUpScreen()
             /*MainCardView() {
 
             }*/
@@ -83,13 +83,13 @@ private fun ChangeStatusBarColor() {
 }
 
 @Composable
-fun SignInScreen() {
+fun SignUpScreen() {
 
     ChangeStatusBarColor()
 
     val navigation = getNavController()
 
-    val viewModel = getViewModel<SignInViewModel>(
+    val viewModel = getViewModel<SignUpViewModel>(
         //viewModelStoreOwner = navigation.getBackStackEntry("root")
     )
 
@@ -105,7 +105,7 @@ fun SignInScreen() {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.8f),
+                .fillMaxHeight(0.95f),
             verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -113,19 +113,21 @@ fun SignInScreen() {
             AppIcon()
 
             MainCardView(navigation, viewModel) {
-                viewModel.userSignIn()
+                // viewModel.userSignUp()
             }
         }
     }
 }
 
 @Composable
-fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEvent: () -> Unit) {
+fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEvent: () -> Unit) {
 
     val context = LocalContext.current
 
+    val name = viewModel.name.observeAsState("") //remember { mutableStateOf("") }
     val email = viewModel.email.observeAsState("")
     val password = viewModel.password.observeAsState("")
+    val confirmPassword = viewModel.password.observeAsState("")
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -143,13 +145,23 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
 
             Text(
                 modifier = Modifier.padding(top = 18.dp, bottom = 18.dp),
-                text = "Sign In",
+                text = "Sign Up",
                 style = TextStyle(
                     color = Blue,
                     fontSize = 28.sp,
                     fontWeight = FontWeight.Bold
                 )
             )
+
+
+            MainTextField(
+                edtValue = name.value,
+                icon = R.drawable.ic_person,
+                hint = "Your Full Name"
+            ) {
+                viewModel.name.value = it
+            }
+
 
             MainTextField(
                 edtValue = email.value,
@@ -158,6 +170,8 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
             ) {
                 viewModel.email.value = it
             }
+
+
 
             PasswordTextField(
                 edtValue = password.value,
@@ -168,13 +182,23 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
             }
 
 
+
+            PasswordTextField(
+                edtValue = confirmPassword.value,
+                icon = R.drawable.ic_password,
+                hint = "Confirm Password"
+            ) {
+                viewModel.confirmPassword.value = it
+            }
+
+
             Button(
                 modifier = Modifier.padding(top = 28.dp, bottom = 8.dp),
                 onClick = {
-                    checkUserInput(email, password, signInEvent, context)
+                    checkUserInput(name, email, password, confirmPassword, signUpEvent, context)
                 }
             ) {
-                Text(modifier = Modifier.padding(8.dp), text = "Log In")
+                Text(modifier = Modifier.padding(8.dp), text = "Register Account")
             }
 
 
@@ -184,18 +208,18 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
-                Text(text = "Don't have an account")
+                Text(text = "Already have an account")
 
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TextButton(onClick = {
-                    navigation.navigate(MyScreens.SignUpScreen.route) {
-                        popUpTo(MyScreens.SignInScreen.route) {
+                    navigation.navigate(MyScreens.SignInScreen.route) {
+                        popUpTo(MyScreens.SignUpScreen.route) {
                             inclusive = true
                         }
                     }
                 }) {
-                    Text(text = "Register now", color = Blue)
+                    Text(text = "Log In", color = Blue)
                 }
 
             }
@@ -206,33 +230,58 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
 }
 
 private fun checkUserInput(
+    name: State<String>,
     email: State<String>,
     password: State<String>,
-    signInEvent: () -> Unit,
+    confirmPassword: State<String>,
+    signUpEvent: () -> Unit,
     context: Context
 ) {
-    if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
+    if (name.value.isNotEmpty() && email.value.isNotEmpty() && password.value.isNotEmpty() && confirmPassword.value.isNotEmpty()) {
 
-        if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
-            if (InternetChecker(context).isInternetConnected) {
-                signInEvent.invoke()
+        if (password.value == confirmPassword.value) {
+
+            if (password.value.length >= 8) {
+                if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+
+                    if (InternetChecker(context).isInternetConnected) {
+                        signUpEvent.invoke()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.please_check_your_network_connectivity),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+
+                    }
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.email_format_is_not_valid),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+
+                }
             } else {
                 Toast.makeText(
                     context,
-                    context.getString(R.string.please_check_your_network_connectivity),
+                    context.getString(R.string.password_s_length_should_be_more_than_8_characters),
                     Toast.LENGTH_SHORT
                 )
                     .show()
 
             }
+
         } else {
             Toast.makeText(
                 context,
-                context.getString(R.string.email_format_is_not_valid),
-                Toast.LENGTH_SHORT
+                context.getString(R.string.passwords_are_not_the_same), Toast.LENGTH_SHORT
             )
                 .show()
         }
+
 
     } else {
         Toast.makeText(
