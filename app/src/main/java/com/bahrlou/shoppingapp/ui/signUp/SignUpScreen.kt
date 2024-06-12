@@ -16,14 +16,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
+import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -94,8 +93,8 @@ fun SignUpScreen() {
 
             AppIcon()
 
-            MainCardView(navigation, viewModel) {
-                viewModel.userSignUp()
+            MainCardView(navigation,viewModel) {
+               // viewModel.userSignUp()
             }
         }
     }
@@ -108,14 +107,13 @@ fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEv
     val email = viewModel.email.observeAsState("")
     val password = viewModel.password.observeAsState("")
     val confirmPassword = viewModel.password.observeAsState("")
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
                 horizontal = 16.dp
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        elevation =  10.dp,
         shape = Shapes.medium
     ) {
 

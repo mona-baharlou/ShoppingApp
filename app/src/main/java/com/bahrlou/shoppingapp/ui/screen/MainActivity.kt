@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Surface
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            Koin(appDeclaration = { shoppingModules }) {
+            Koin(appDeclaration = { modules(shoppingModules) }) {
 
                 ShoppingAppTheme {
                     Surface(
@@ -64,19 +64,21 @@ fun ShoppingUi() {
 
 
         composable(
-            route = "${MyScreens.ProductScreen.route}/$KEY_PRODUCT_ARG",
+            route = "${MyScreens.ProductScreen.route}" /*+
+                    "/$KEY_PRODUCT_ARG",
             arguments = listOf(navArgument(KEY_PRODUCT_ARG) {
                 type = NavType.IntType
-            })
+            })*/
         ) {
             ProductScreen(it.arguments!!.getInt(KEY_PRODUCT_ARG, -1)) //productId
         }
 
         composable(
-            route = "${MyScreens.CategoryScreen.route}/$KEY_CATEGORY_ARG",
+            route = "${MyScreens.CategoryScreen.route}" /*+
+                    "/$KEY_CATEGORY_ARG",
             arguments = listOf(navArgument(KEY_CATEGORY_ARG) {
                 type = NavType.StringType
-            })
+            })*/
         ) {
             CategoryScreen(it.arguments!!.getString(KEY_CATEGORY_ARG, "null"))
         }

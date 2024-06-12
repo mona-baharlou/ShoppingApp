@@ -6,8 +6,6 @@ import org.koin.dsl.module
 
 val shoppingModules = module {
 
-    viewModel {
-        SignUpViewModel()
-    }
+    viewModel { SignUpViewModel() }
 
 }

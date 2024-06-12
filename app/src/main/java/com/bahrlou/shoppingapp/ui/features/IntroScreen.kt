@@ -1,15 +1,16 @@
 package com.bahrlou.shoppingapp.ui.features
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,14 +48,19 @@ fun IntroScreen() {
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
             onClick = {
-                navigation.navigate(MyScreens.SignUpScreen.route)
+                try {
+                    navigation.navigate(MyScreens.SignUpScreen.route)
+                }
+                catch (ex:Exception){
+                    Log.d("introoo ", "IntroScreen: ex : ${ex.message}")
+                }
             }) {
             Text(text = "Sign Up", color = Color.White)
         }
 
 
         Button(modifier = Modifier.fillMaxWidth(0.7f),
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
             onClick = {
                 navigation.navigate(MyScreens.SignInScreen.route)
             }

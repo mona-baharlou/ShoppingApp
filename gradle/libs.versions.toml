@@ -1,56 +1,52 @@
 [versions]
 accompanistSystemuicontroller = "0.17.0"
-agp = "8.2.0"
+activityCompose = "1.9.0"
+agp = "8.2.2"
 coilCompose = "2.0.0-rc02"
 cokoin = "1.0.0"
 converterGson = "2.11.0"
+coreTesting = "2.2.0"
+espressoContrib = "3.5.1"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
-junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
 kotlinxCoroutinesAndroid = "1.7.3"
 lifecycleRuntimeKtx = "2.8.1"
 
 compose_version="1.6.7"
-material3="1.2.1"
-activityCompose = "1.9.0"
-navigationCompose = "2.7.7"
 
+navigationCompose = "2.7.7"
 org-jetbrains-kotlin-android = "1.8.0"
 lifecycleViewmodelKtx = "2.8.1"
 retrofit = "2.11.0"
 roomCompiler = "2.6.1"
 roomRuntime = "2.6.1"
-runtimeLivedata = "1.6.7"
+org-jetbrains-compose="1.6.11"
 
 
 [libraries]
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanistSystemuicontroller" }
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
+androidx-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "espressoContrib" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoContrib" }
+androidx-foundation = { module = "androidx.compose.foundation:foundation" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
-androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
+androidx-material = { module = "androidx.compose.material:material" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
-androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "runtimeLivedata" }
+androidx-runtime = { module = "androidx.compose.runtime:runtime" }
+androidx-runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "compose_version" }
+androidx-ui = { module = "androidx.compose.ui:ui" }
+androidx-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 cokoin = { module = "dev.burnoo:cokoin", version.ref = "cokoin" }
 cokoin-android-navigation = { module = "dev.burnoo:cokoin-android-navigation", version.ref = "cokoin" }
 cokoin-android-viewmodel = { module = "dev.burnoo:cokoin-android-viewmodel", version.ref = "cokoin" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
-androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
-androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
-
-androidx-ui = { group = "androidx.compose.ui", name = "ui" , version.ref="compose_version"}
-androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics",version.ref="compose_version" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" ,version.ref="compose_version"}
-androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview", version.ref="compose_version" }
-androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest",version.ref="compose_version" }
-androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref="compose_version" }
-androidx-material3 = { group = "androidx.compose.material3", name = "material3",version.ref="material3" }
 
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
@@ -60,5 +56,6 @@ room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCom
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
+org-jetbrains-compose = { id = "org.jetbrains.compose", version.ref = "org-jetbrains-compose" }
 
 
