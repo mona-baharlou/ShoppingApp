@@ -5,7 +5,6 @@ import com.bahrlou.shoppingapp.model.net.ApiService
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.util.SUCCESS
 import com.google.gson.JsonObject
-import org.json.JSONObject
 
 class UserRepositoryImpl(
     private val apiService: ApiService,
