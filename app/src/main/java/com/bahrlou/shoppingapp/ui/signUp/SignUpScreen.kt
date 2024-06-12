@@ -1,5 +1,6 @@
 package com.bahrlou.shoppingapp.ui.signUp
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -48,6 +49,7 @@ import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
+import dev.burnoo.cokoin.viewmodel.getViewModel
 
 
 @Preview(showBackground = true)
@@ -70,9 +72,10 @@ fun SignUpScreenPreview() {
 fun SignUpScreen() {
 
     val navigation = getNavController()
-    val viewModel = getNavViewModel<SignUpViewModel>()
 
-
+    val viewModel = getViewModel<SignUpViewModel>(
+        //viewModelStoreOwner = navigation.getBackStackEntry("root")
+    )
 
     Box {
 
@@ -93,8 +96,8 @@ fun SignUpScreen() {
 
             AppIcon()
 
-            MainCardView(navigation,viewModel) {
-               // viewModel.userSignUp()
+            MainCardView(navigation, viewModel) {
+                // viewModel.userSignUp()
             }
         }
     }
@@ -113,7 +116,7 @@ fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEv
             .padding(
                 horizontal = 16.dp
             ),
-        elevation =  10.dp,
+        elevation = 10.dp,
         shape = Shapes.medium
     ) {
 

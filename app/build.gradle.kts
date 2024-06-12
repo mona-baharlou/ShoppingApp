@@ -60,8 +60,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    //implementation(libs.androidx.activity.compose)
-
 
     //Compose
     implementation(libs.androidx.runtime)
@@ -82,23 +80,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
-
-    // implementation(platform(libs.androidx.compose.bom))
-    /*implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material)*/
-    //testImplementation(libs.junit)
-    //androidTestImplementation(libs.androidx.junit)
-    //androidTestImplementation(libs.androidx.espresso.core)
-    // androidTestImplementation(platform(libs.androidx.compose.bom))
-    //androidTestImplementation(libs.androidx.ui.test.junit4)
-    //debugImplementation(libs.androidx.ui.tooling)
-    //debugImplementation(libs.androidx.ui.test.manifest)
-
-    //Navigation
-    //implementation(libs.androidx.navigation.compose)
-
     //LiveData-State
     implementation(libs.androidx.runtime.livedata)
 
@@ -110,14 +91,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //Koin
-    //implementation(libs.koin.android)
     implementation(libs.cokoin)
     implementation(libs.cokoin.android.viewmodel)
     implementation(libs.cokoin.android.navigation)
-
-
-    //Parse Platform
-    //implementation(libs.parse)
 
     //Retrofit
     implementation(libs.retrofit)
@@ -129,6 +105,5 @@ dependencies {
 
     //System UI Controller
     implementation(libs.accompanist.systemuicontroller)
-
 
 }
