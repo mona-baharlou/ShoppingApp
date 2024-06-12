@@ -8,7 +8,7 @@ object TokenInMemory {
         private set
 
 
-    fun refreshToken(username: String, newToken: String) {
+    fun refreshToken(username: String?, newToken: String?) {
         this.username = username
         this.token = newToken
     }

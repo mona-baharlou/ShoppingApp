@@ -3,8 +3,8 @@ package com.bahrlou.shoppingapp.model.repository.user
 interface UserRepository {
 
     //online
-    suspend fun signUp(name: String, username: String, password: String)
-    suspend fun signIn(username: String, password: String)
+    suspend fun signUp(name: String, username: String, password: String): String
+    suspend fun signIn(username: String, password: String): String
 
 
     //offline
