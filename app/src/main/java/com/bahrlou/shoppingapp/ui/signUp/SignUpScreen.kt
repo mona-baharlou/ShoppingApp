@@ -1,6 +1,9 @@
 package com.bahrlou.shoppingapp.ui.signUp
 
+import android.content.Context
 import android.util.Log
+import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,12 +28,14 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -106,6 +111,8 @@ fun SignUpScreen() {
 @Composable
 fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEvent: () -> Unit) {
 
+    val context = LocalContext.current
+
     val name = viewModel.name.observeAsState("") //remember { mutableStateOf("") }
     val email = viewModel.email.observeAsState("")
     val password = viewModel.password.observeAsState("")
@@ -176,7 +183,9 @@ fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEv
 
             Button(
                 modifier = Modifier.padding(top = 28.dp, bottom = 8.dp),
-                onClick = signUpEvent
+                onClick = {
+                    checkUserInput(name, email, password, confirmPassword, signUpEvent, context)
+                }
             ) {
                 Text(modifier = Modifier.padding(8.dp), text = "Register Account")
             }
@@ -206,6 +215,54 @@ fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEv
 
         }
 
+    }
+}
+
+private fun checkUserInput(
+    name: State<String>,
+    email: State<String>,
+    password: State<String>,
+    confirmPassword: State<String>,
+    signUpEvent: () -> Unit,
+    context: Context
+) {
+    if (name.value.isNotEmpty() && email.value.isNotEmpty() && password.value.isNotEmpty() && confirmPassword.value.isNotEmpty()) {
+
+        if (password.value == confirmPassword.value) {
+
+            if (password.value.length >= 8) {
+                if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+                    signUpEvent.invoke()
+                } else {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.email_format_is_not_valid),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+
+                }
+            } else {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.password_s_length_should_be_more_than_8_characters),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+
+            }
+
+        } else {
+            Toast.makeText(context,
+                context.getString(R.string.passwords_are_not_the_same), Toast.LENGTH_SHORT)
+                .show()
+        }
+
+
+    } else {
+        Toast.makeText(context,
+            context.getString(R.string.please_fill_required_data_first), Toast.LENGTH_SHORT)
+            .show()
     }
 }
 

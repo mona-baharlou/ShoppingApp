@@ -1,5 +1,8 @@
 package com.bahrlou.shoppingapp.ui.signIn
 
+import android.content.Context
+import android.util.Patterns
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,12 +27,14 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -102,7 +107,9 @@ fun SignInScreen() {
 }
 
 @Composable
-fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signUpEvent: () -> Unit) {
+fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEvent: () -> Unit) {
+
+    val context = LocalContext.current
 
     val email = viewModel.email.observeAsState("")
     val password = viewModel.password.observeAsState("")
@@ -139,8 +146,6 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signUpEv
                 viewModel.email.value = it
             }
 
-
-
             PasswordTextField(
                 edtValue = password.value,
                 icon = R.drawable.ic_password,
@@ -152,7 +157,9 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signUpEv
 
             Button(
                 modifier = Modifier.padding(top = 28.dp, bottom = 8.dp),
-                onClick = signUpEvent
+                onClick = {
+                    checkUserInput(email, password, signInEvent, context)
+                }
             ) {
                 Text(modifier = Modifier.padding(8.dp), text = "Log In")
             }
@@ -182,6 +189,34 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signUpEv
 
         }
 
+    }
+}
+
+private fun checkUserInput(
+    email: State<String>,
+    password: State<String>,
+    signInEvent: () -> Unit,
+    context: Context
+) {
+    if (email.value.isNotEmpty() && password.value.isNotEmpty()) {
+
+        if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
+            signInEvent.invoke()
+        } else {
+            Toast.makeText(
+                context,
+                context.getString(R.string.email_format_is_not_valid),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+    } else {
+        Toast.makeText(
+            context,
+            context.getString(R.string.please_fill_required_data_first), Toast.LENGTH_SHORT
+        )
+            .show()
     }
 }
 
