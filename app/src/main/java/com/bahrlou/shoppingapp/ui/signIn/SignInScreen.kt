@@ -27,6 +27,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -52,6 +53,7 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
@@ -73,7 +75,17 @@ fun SignInScreenPreview() {
 }
 
 @Composable
+private fun ChangeStatusBarColor() {
+    val uiController = rememberSystemUiController()
+    SideEffect {
+        uiController.setStatusBarColor(Blue)
+    }
+}
+
+@Composable
 fun SignInScreen() {
+
+    ChangeStatusBarColor()
 
     val navigation = getNavController()
 

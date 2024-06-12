@@ -1,7 +1,6 @@
 package com.bahrlou.shoppingapp.ui.signUp
 
 import android.content.Context
-import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -28,6 +27,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -53,8 +53,8 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
-import dev.burnoo.cokoin.navigation.getNavViewModel
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
 
@@ -75,7 +75,17 @@ fun SignUpScreenPreview() {
 }
 
 @Composable
+private fun ChangeStatusBarColor() {
+    val uiController = rememberSystemUiController()
+    SideEffect {
+        uiController.setStatusBarColor(Blue)
+    }
+}
+
+@Composable
 fun SignUpScreen() {
+
+    ChangeStatusBarColor()
 
     val navigation = getNavController()
 
@@ -233,11 +243,10 @@ private fun checkUserInput(
 
             if (password.value.length >= 8) {
                 if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
-                    
-                    if(InternetChecker(context).isInternetConnected) {
+
+                    if (InternetChecker(context).isInternetConnected) {
                         signUpEvent.invoke()
-                    }
-                    else{
+                    } else {
                         Toast.makeText(
                             context,
                             context.getString(R.string.please_check_your_network_connectivity),
@@ -266,15 +275,19 @@ private fun checkUserInput(
             }
 
         } else {
-            Toast.makeText(context,
-                context.getString(R.string.passwords_are_not_the_same), Toast.LENGTH_SHORT)
+            Toast.makeText(
+                context,
+                context.getString(R.string.passwords_are_not_the_same), Toast.LENGTH_SHORT
+            )
                 .show()
         }
 
 
     } else {
-        Toast.makeText(context,
-            context.getString(R.string.please_fill_required_data_first), Toast.LENGTH_SHORT)
+        Toast.makeText(
+            context,
+            context.getString(R.string.please_fill_required_data_first), Toast.LENGTH_SHORT
+        )
             .show()
     }
 }
