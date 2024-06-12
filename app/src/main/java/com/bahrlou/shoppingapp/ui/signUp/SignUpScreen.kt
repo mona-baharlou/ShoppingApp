@@ -51,6 +51,7 @@ import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.navigation.getNavViewModel
@@ -232,7 +233,19 @@ private fun checkUserInput(
 
             if (password.value.length >= 8) {
                 if (Patterns.EMAIL_ADDRESS.matcher(email.value).matches()) {
-                    signUpEvent.invoke()
+                    
+                    if(InternetChecker(context).isInternetConnected) {
+                        signUpEvent.invoke()
+                    }
+                    else{
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.please_check_your_network_connectivity),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+
+                    }
                 } else {
                     Toast.makeText(
                         context,

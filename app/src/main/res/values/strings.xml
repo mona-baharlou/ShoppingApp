@@ -4,4 +4,5 @@
     <string name="password_s_length_should_be_more_than_8_characters">Password\'s length should be more than 8 characters</string>
     <string name="passwords_are_not_the_same">Passwords are not the same</string>
     <string name="please_fill_required_data_first">Please fill required data first...</string>
+    <string name="please_check_your_network_connectivity">Please check your network connectivity</string>
 </resources>
