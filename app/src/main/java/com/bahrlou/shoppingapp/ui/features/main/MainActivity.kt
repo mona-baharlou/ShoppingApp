@@ -12,6 +12,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.bahrlou.shoppingapp.di.shoppingModules
+import com.bahrlou.shoppingapp.model.repository.TokenInMemory
+import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInScreen
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpScreen
@@ -22,6 +24,7 @@ import com.bahrlou.shoppingapp.util.KEY_PRODUCT_ARG
 import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.Koin
 import dev.burnoo.cokoin.navigation.KoinNavHost
+import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ComponentActivity() {
@@ -41,6 +44,10 @@ class MainActivity : ComponentActivity() {
                     Surface(
                         color = BackgroundMain, modifier = Modifier.fillMaxSize()
                     ) {
+
+                        val userRepository: UserRepository = get()
+                        userRepository.loadToken()
+
                         ShoppingUi()
                     }
                 }
@@ -63,7 +70,13 @@ fun ShoppingUi() {
     ) {
 
         composable(MyScreens.MainScreen.route) {
-            MainScreen()
+
+            if (TokenInMemory.token != null || TokenInMemory.token != "") {
+                MainScreen()
+            } else {
+                IntroScreen()
+            }
+
         }
 
 

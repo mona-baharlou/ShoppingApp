@@ -3,7 +3,9 @@ package com.bahrlou.shoppingapp.ui.features.signIn
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
+import kotlinx.coroutines.launch
 
 class SignInViewModel(private val userRepository: UserRepository) : ViewModel() {
 
@@ -11,7 +13,10 @@ class SignInViewModel(private val userRepository: UserRepository) : ViewModel() 
     val password = MutableLiveData("")
 
 
-    fun userSignIn() {
-        Log.d("SignINN", "userSignUp: ${email.value}")
+    fun userSignIn(LoggingEvent: (String) -> Unit) {
+        viewModelScope.launch {
+            val result = userRepository.signIn(email.value!!, password.value!!)
+            LoggingEvent(result)
+        }
     }
 }

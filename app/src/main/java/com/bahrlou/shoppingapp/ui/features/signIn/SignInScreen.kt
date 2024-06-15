@@ -53,6 +53,7 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.SUCCESS
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -88,7 +89,7 @@ fun SignInScreen() {
     ChangeStatusBarColor()
 
     val navigation = getNavController()
-
+    val context = LocalContext.current
     val viewModel = getViewModel<SignInViewModel>(
         //viewModelStoreOwner = navigation.getBackStackEntry("root")
     )
@@ -113,7 +114,19 @@ fun SignInScreen() {
             AppIcon()
 
             MainCardView(navigation, viewModel) {
-                viewModel.userSignIn()
+                viewModel.userSignIn {
+                    if (it == SUCCESS) {
+                        navigation.navigate(MyScreens.MainScreen.route)
+                        {
+                            popUpTo(MyScreens.IntroScreen.route) {
+                                inclusive = true
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    }
+
+                }
             }
         }
     }
@@ -189,8 +202,8 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
                 Spacer(modifier = Modifier.width(8.dp))
 
                 TextButton(onClick = {
-                    navigation.navigate(MyScreens.SignUpScreen.route) {
-                        popUpTo(MyScreens.SignInScreen.route) {
+                    navigation.navigate(MyScreens.MainScreen.route) {
+                        popUpTo(MyScreens.IntroScreen.route) {
                             inclusive = true
                         }
                     }
