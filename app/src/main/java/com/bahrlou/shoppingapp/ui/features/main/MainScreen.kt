@@ -120,8 +120,7 @@ fun CategoryItem() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
-            shape = Shapes.medium,
-            color = CardBackground
+            shape = Shapes.medium, color = CardBackground
         ) {
             Image(
                 modifier = Modifier.padding(16.dp),
@@ -132,8 +131,8 @@ fun CategoryItem() {
 
 
         Text(
-            text = "Bags", modifier = Modifier
-                .padding(top = 4.dp),
+            text = "Bags",
+            modifier = Modifier.padding(top = 4.dp),
             style = TextStyle(color = Color.Gray)
         )
     }
@@ -165,8 +164,7 @@ fun ProductByCategory() {
 @Composable
 fun ProductList() {
     LazyRow(
-        modifier = Modifier.padding(top = 16.dp),
-        contentPadding = PaddingValues(end = 16.dp)
+        modifier = Modifier.padding(top = 16.dp), contentPadding = PaddingValues(end = 16.dp)
     ) {
 
         items(10) {
@@ -235,6 +233,8 @@ fun AdvertisementSection() {
         contentScale = ContentScale.Crop
     )
 }
+
+//************************* STATUS BAR COLOR ****************************************/
 
 @Composable
 fun ChangeStatusBarColor() {

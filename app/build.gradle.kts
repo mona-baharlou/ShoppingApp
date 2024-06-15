@@ -100,7 +100,7 @@ dependencies {
     implementation(libs.converter.gson)
 
     //Room
-    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
     kapt(libs.room.compiler)
 
     //System UI Controller

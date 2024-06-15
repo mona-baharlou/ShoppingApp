@@ -1,6 +1,8 @@
 package com.bahrlou.shoppingapp.model.net
 
+import com.bahrlou.shoppingapp.model.data.AdsResponse
 import com.bahrlou.shoppingapp.model.data.LoginResponse
+import com.bahrlou.shoppingapp.model.data.ProductResponse
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.util.BASE_URL
 import com.google.gson.JsonObject
@@ -21,9 +23,14 @@ interface ApiService {
     @POST("signIn")
     suspend fun signIn(@Body jsonObject: JsonObject): LoginResponse
 
-
     @GET("refreshToken")
     fun refreshToken(): Call<LoginResponse>
+
+    @GET("getSliderPics")
+    suspend fun getAds(): AdsResponse
+
+    @GET("getProducts")
+    suspend fun getProducts(): ProductResponse
 }
 
 fun createApiService(): ApiService {
