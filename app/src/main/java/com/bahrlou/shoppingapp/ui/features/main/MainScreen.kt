@@ -15,6 +15,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,10 +39,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
+import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.CardBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import com.bahrlou.shoppingapp.util.CATEGORY
+import com.bahrlou.shoppingapp.util.InternetChecker
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.burnoo.cokoin.viewmodel.getViewModel
+import org.koin.core.parameter.parametersOf
 
 
 @Preview(showBackground = true)
@@ -58,7 +65,13 @@ fun MainScreenPreview() {
 @Composable
 fun MainScreen() {
 
+    val context = LocalContext.current
+
     ChangeStatusBarColor()
+
+    val viewModel = getViewModel<MainViewModel>(
+        parameters = { parametersOf(InternetChecker(context).isInternetConnected) }
+    )
 
     Column(
         modifier = Modifier
@@ -67,13 +80,26 @@ fun MainScreen() {
             .padding(bottom = 16.dp)
 
     ) {
+
+        if (viewModel.showProgressBar.value) {
+            LinearProgressIndicator(
+                modifier = Modifier.fillMaxWidth(),
+                color = Blue
+            )
+        }
+
+
         TopToolbar()
-        CategorySection()
-        ProductByCategory()//subject
-        ProductByCategory()
-        AdvertisementSection()
-        ProductByCategory()
-        ProductByCategory()
+
+        CategorySection(CATEGORY)
+
+
+        /* CategorySection()
+         ProductByCategory()//subject
+         ProductByCategory()
+         AdvertisementSection()
+         ProductByCategory()
+         ProductByCategory()*/
     }
 
 }
@@ -100,19 +126,19 @@ fun TopToolbar() {
 //**************************** CATEGORY **********************************/
 
 @Composable
-fun CategorySection() {
+fun CategorySection(categoryList: List<Pair<String, Int>>) {
     LazyRow(
         modifier = Modifier.padding(top = 16.dp), contentPadding = PaddingValues(end = 16.dp)
     ) {
 
-        items(10) {
-            CategoryItem()
+        items(categoryList.size) {
+            CategoryItem(categoryList[it])
         }
     }
 }
 
 @Composable
-fun CategoryItem() {
+fun CategoryItem(item: Pair<String, Int>) {
     Column(
         modifier = Modifier
             .padding(start = 16.dp)
@@ -122,16 +148,17 @@ fun CategoryItem() {
         Surface(
             shape = Shapes.medium, color = CardBackground
         ) {
+
             Image(
                 modifier = Modifier.padding(16.dp),
-                painter = painterResource(id = R.drawable.ic_icon_app),
+                painter = painterResource(id = item.second),
                 contentDescription = null
             )
         }
 
 
         Text(
-            text = "Bags",
+            text = item.first,
             modifier = Modifier.padding(top = 4.dp),
             style = TextStyle(color = Color.Gray)
         )

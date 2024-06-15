@@ -15,6 +15,7 @@ import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInScreen
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
@@ -155,12 +156,6 @@ fun ProductScreen(productId: Int) {
 
 
 }
-
-@Composable
-fun MainScreen() {
-
-}
-
 
 @Preview(showBackground = true)
 @Composable

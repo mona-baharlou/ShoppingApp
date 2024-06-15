@@ -7,6 +7,7 @@ import com.bahrlou.shoppingapp.model.data.Ads
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainViewModel(
@@ -33,6 +34,8 @@ class MainViewModel(
             val advs = async { productRepository.getAllAds(isInternetConnected) }
 
             updateData(products.await(), advs.await())
+
+            delay(1500)
 
             showProgressBar.value = false
 
