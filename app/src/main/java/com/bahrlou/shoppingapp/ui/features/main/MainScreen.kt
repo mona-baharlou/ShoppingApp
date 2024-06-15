@@ -112,9 +112,7 @@ fun SetProductSectionData(tags: List<String>, products: List<Product>, ads: List
 
     val context = LocalContext.current
 
-    if (products.size > 0) {
-        Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show()
-    } else {
+    if (products.isNotEmpty()) {
         Column() {
 
             tags.forEachIndexed { it, _ ->
