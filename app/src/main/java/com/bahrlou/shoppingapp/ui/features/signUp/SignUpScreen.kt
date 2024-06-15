@@ -53,6 +53,7 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.SUCCESS
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -87,6 +88,8 @@ fun SignUpScreen() {
 
     ChangeStatusBarColor()
 
+    val context = LocalContext.current
+
     val navigation = getNavController()
 
     val viewModel = getViewModel<SignUpViewModel>(
@@ -113,7 +116,18 @@ fun SignUpScreen() {
             AppIcon()
 
             MainCardView(navigation, viewModel) {
-                // viewModel.userSignUp()
+                viewModel.userSignUp {
+                    if (it == SUCCESS) {
+                        navigation.navigate(MyScreens.MainScreen.route)
+                        {
+                            popUpTo(MyScreens.IntroScreen.route) {
+                                inclusive = true
+                            }
+                        }
+                    } else {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }
