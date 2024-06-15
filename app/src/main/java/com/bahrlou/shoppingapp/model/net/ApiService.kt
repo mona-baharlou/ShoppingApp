@@ -15,10 +15,10 @@ import retrofit2.http.POST
 
 interface ApiService {
 
-    @POST("signup")
+    @POST("signUp")
     suspend fun signUp(@Body jsonObject: JsonObject): LoginResponse
 
-    @POST("signup")
+    @POST("signIn")
     suspend fun signIn(@Body jsonObject: JsonObject): LoginResponse
 
 
@@ -37,7 +37,7 @@ fun createApiService(): ApiService {
             if (TokenInMemory.token != null) {
                 newRequest.addHeader("Authorization", TokenInMemory.token!!)
             }
-
+            newRequest.addHeader("Accept", "application/json")
             newRequest.method(oldRequest.method, oldRequest.body)
 
             return@addInterceptor it.proceed(newRequest.build())

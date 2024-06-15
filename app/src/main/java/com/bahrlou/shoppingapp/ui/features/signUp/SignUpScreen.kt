@@ -141,7 +141,8 @@ fun MainCardView(navigation: NavController, viewModel: SignUpViewModel, signUpEv
     val name = viewModel.name.observeAsState("") //remember { mutableStateOf("") }
     val email = viewModel.email.observeAsState("")
     val password = viewModel.password.observeAsState("")
-    val confirmPassword = viewModel.password.observeAsState("")
+    val confirmPassword = viewModel.confirmPassword.observeAsState("")
+
     Card(
         modifier = Modifier
             .fillMaxWidth()

@@ -23,8 +23,8 @@ import com.bahrlou.shoppingapp.util.KEY_CATEGORY_ARG
 import com.bahrlou.shoppingapp.util.KEY_PRODUCT_ARG
 import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.Koin
+import dev.burnoo.cokoin.get
 import dev.burnoo.cokoin.navigation.KoinNavHost
-import org.koin.android.ext.android.get
 import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ComponentActivity() {

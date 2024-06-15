@@ -12,10 +12,10 @@ interface UserRepository {
     fun loadToken()//get token from sharedPref
 
     fun saveToken(newToken: String)
-    fun getToken(): String
+    fun getToken(): String?
 
 
     fun saveUsername(username: String)
-    fun getUsername(): String
+    fun getUsername(): String?
 
 }

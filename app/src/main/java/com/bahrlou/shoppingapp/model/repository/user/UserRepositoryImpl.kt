@@ -75,8 +75,8 @@ class UserRepositoryImpl(
         sharedPref.edit().putString("token", newToken).apply()
     }
 
-    override fun getToken(): String {
-        return sharedPref.getString("token", "")!!
+    override fun getToken(): String? {
+        return sharedPref.getString("token", null)
     }
 
     override fun saveUsername(username: String) {
@@ -84,8 +84,8 @@ class UserRepositoryImpl(
 
     }
 
-    override fun getUsername(): String {
-        return sharedPref.getString("username", "")!!
+    override fun getUsername(): String? {
+        return sharedPref.getString("username", null)
 
     }
 }
