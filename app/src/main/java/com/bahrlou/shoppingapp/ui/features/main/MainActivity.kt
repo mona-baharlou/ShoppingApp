@@ -22,6 +22,7 @@ import com.bahrlou.shoppingapp.util.KEY_PRODUCT_ARG
 import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.Koin
 import dev.burnoo.cokoin.navigation.KoinNavHost
+import org.koin.android.ext.koin.androidContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +30,12 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            Koin(appDeclaration = { modules(shoppingModules) }) {
+            Koin(appDeclaration = {
+
+                androidContext(this@MainActivity)
+                modules(shoppingModules)
+
+            }) {
 
                 ShoppingAppTheme {
                     Surface(

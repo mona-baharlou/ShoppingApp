@@ -69,6 +69,8 @@ class UserRepositoryImpl(
         TokenInMemory.refreshToken(getUsername(), getToken())
     }
 
+    //
+
     override fun saveToken(newToken: String) {
         sharedPref.edit().putString("token", newToken).apply()
     }

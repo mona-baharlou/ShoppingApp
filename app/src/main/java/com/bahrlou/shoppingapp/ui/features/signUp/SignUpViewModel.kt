@@ -3,8 +3,9 @@ package com.bahrlou.shoppingapp.ui.features.signUp
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
 
     val name = MutableLiveData("")
     val email = MutableLiveData("")
