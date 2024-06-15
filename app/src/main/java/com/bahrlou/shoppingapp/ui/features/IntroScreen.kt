@@ -34,41 +34,40 @@ fun IntroScreen() {
 
     val navigation = getNavController()
 
-    Image(
-        modifier = Modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.intro_img),
-        contentDescription = null,
-        contentScale = ContentScale.Crop
-    )
+        Image(
+            modifier = Modifier.fillMaxSize(),
+            painter = painterResource(id = R.drawable.intro_img),
+            contentDescription = null,
+            contentScale = ContentScale.Crop
+        )
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(0.78f),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Bottom
-    ) {
-
-        Button(
-            modifier = Modifier.fillMaxWidth(0.7f),
-            onClick = {
-                    navigation.navigate(MyScreens.SignUpScreen.route)
-            }) {
-            Text(text = "Sign Up", color = Color.White)
-        }
-
-
-        Button(modifier = Modifier.fillMaxWidth(0.7f),
-            colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
-            onClick = {
-                navigation.navigate(MyScreens.SignInScreen.route)
-            }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(0.78f),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Bottom
         ) {
-            Text(text = "Sign In", color = Color.Blue)
+
+            Button(
+                modifier = Modifier.fillMaxWidth(0.7f),
+                onClick = {
+                    navigation.navigate(MyScreens.SignUpScreen.route)
+                }) {
+                Text(text = "Sign Up", color = Color.White)
+            }
+
+
+            Button(modifier = Modifier.fillMaxWidth(0.7f),
+                colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+                onClick = {
+                    navigation.navigate(MyScreens.SignInScreen.route)
+                }
+            ) {
+                Text(text = "Sign In", color = Color.Blue)
+            }
+
         }
-
-    }
-
 }
 
 @Composable

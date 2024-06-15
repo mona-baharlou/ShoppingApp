@@ -43,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
                 ShoppingAppTheme {
                     Surface(
-                        color = BackgroundMain, modifier = Modifier.fillMaxSize()
+                        color = BackgroundMain//, modifier = Modifier.fillMaxSize()
                     ) {
 
                         val userRepository: UserRepository = get()
@@ -72,7 +72,7 @@ fun ShoppingUi() {
 
         composable(MyScreens.MainScreen.route) {
 
-            if (TokenInMemory.token != null || TokenInMemory.token != "") {
+            if (TokenInMemory.token != null && TokenInMemory.token != "") {
                 MainScreen()
             } else {
                 IntroScreen()
