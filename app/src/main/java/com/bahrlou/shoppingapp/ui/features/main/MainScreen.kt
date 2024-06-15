@@ -5,7 +5,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
@@ -56,6 +63,21 @@ fun MainScreen() {
 //**************************** TOOLBAR **********************************/
 @Composable
 fun TopToolbar() {
+
+    TopAppBar(
+        backgroundColor = Color.White,
+        title = { Text(text = "Shopping App") },
+        elevation = 0.dp,
+        actions = {
+            IconButton(onClick = {}) {
+                Icon(Icons.Default.ShoppingCart, null)
+            }
+
+            IconButton(onClick = {}) {
+                Icon(Icons.Default.Person, null)
+            }
+        }
+    )
 
 }
 
