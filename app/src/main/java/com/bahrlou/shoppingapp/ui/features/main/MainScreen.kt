@@ -1,5 +1,6 @@
 package com.bahrlou.shoppingapp.ui.features.main
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -109,19 +110,30 @@ fun MainScreen() {
 @Composable
 fun SetProductSectionData(tags: List<String>, products: List<Product>, ads: List<Ads>) {
 
-    Column() {
+    val context = LocalContext.current
 
-        tags.forEachIndexed { it, _ ->
+    if (products.size > 0) {
+        Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_SHORT).show()
+    } else {
+        Column() {
 
-            val filteredProduct = products.filter { product ->
-                product.tags == tags[it]
+            tags.forEachIndexed { it, _ ->
+
+                val filteredProduct = products.filter { product ->
+                    product.tags == tags[it]
+                }
+
+                ProductByCategory(tags[it], filteredProduct.shuffled())
+
+                if (ads.size >= 2) {
+                    if (it == 1 || it == 2) {
+                        AdvertisementSection(ads[it - 1])
+                    }
+                }
+
             }
-
-            ProductByCategory(tags[it], filteredProduct.shuffled())
-
         }
     }
-
 }
 
 
@@ -276,15 +288,15 @@ fun ProductItem(item: Product) {
 //**************************** Advertisement Image **********************************/
 
 @Composable
-fun AdvertisementSection() {
-    Image(
+fun AdvertisementSection(adv: Ads) {
+    AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .height(260.dp)
             .padding(top = 32.dp, start = 16.dp, end = 16.dp)
             .clip(shape = Shapes.medium)
             .clickable { },
-        painter = painterResource(id = R.drawable.img_intro),
+        model = adv.imageURL,
         contentDescription = null,
         contentScale = ContentScale.Crop
     )
