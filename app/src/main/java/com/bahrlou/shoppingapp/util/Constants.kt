@@ -20,3 +20,11 @@ val CATEGORY = listOf(
     Pair("Bucket", R.drawable.ic_cat_bucket),
     Pair("Quilted", R.drawable.ic_cat_quilted)
 )
+
+
+val TAGS = listOf(
+    "Newest",
+    "Best Sellers",
+    "Most Visited",
+    "Best Quality"
+)

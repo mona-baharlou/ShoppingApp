@@ -37,7 +37,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
+import com.bahrlou.shoppingapp.model.data.Ads
+import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.CardBackground
@@ -45,6 +48,7 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
+import com.bahrlou.shoppingapp.util.TAGS
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -69,9 +73,8 @@ fun MainScreen() {
 
     ChangeStatusBarColor()
 
-    val viewModel = getViewModel<MainViewModel>(
-        parameters = { parametersOf(InternetChecker(context).isInternetConnected) }
-    )
+    val viewModel =
+        getViewModel<MainViewModel>(parameters = { parametersOf(InternetChecker(context).isInternetConnected) })
 
     Column(
         modifier = Modifier
@@ -81,17 +84,16 @@ fun MainScreen() {
 
     ) {
 
-        if (viewModel.showProgressBar.value) {
-            LinearProgressIndicator(
-                modifier = Modifier.fillMaxWidth(),
-                color = Blue
-            )
-        }
-
+        SetProgressVisibility(viewModel)
 
         TopToolbar()
 
         CategorySection(CATEGORY)
+
+        val productDataState = viewModel.productData
+        val advDataState = viewModel.advData
+
+        SetProductSectionData(TAGS, productDataState.value, advDataState.value)
 
 
         /* CategorySection()
@@ -102,6 +104,34 @@ fun MainScreen() {
          ProductByCategory()*/
     }
 
+}
+
+@Composable
+fun SetProductSectionData(tags: List<String>, products: List<Product>, ads: List<Ads>) {
+
+    Column() {
+
+        tags.forEachIndexed { it, _ ->
+
+            val filteredProduct = products.filter { product ->
+                product.tags == tags[it]
+            }
+
+            ProductByCategory(tags[it], filteredProduct.shuffled())
+
+        }
+    }
+
+}
+
+
+@Composable
+private fun SetProgressVisibility(viewModel: MainViewModel) {
+    if (viewModel.showProgressBar.value) {
+        LinearProgressIndicator(
+            modifier = Modifier.fillMaxWidth(), color = Blue
+        )
+    }
 }
 
 //**************************** TOOLBAR **********************************/
@@ -168,7 +198,7 @@ fun CategoryItem(item: Pair<String, Int>) {
 //**************************** Products **********************************/
 
 @Composable
-fun ProductByCategory() {
+fun ProductByCategory(tag: String, data: List<Product>) {
 
     Column(
         modifier = Modifier.padding(
@@ -177,34 +207,33 @@ fun ProductByCategory() {
     ) {
 
         Text(
-            text = "Popular Bags",
+            text = tag,
             modifier = Modifier.padding(start = 16.dp),
             style = MaterialTheme.typography.h6
         )
 
-        ProductList()
+        ProductSection(data)
     }
 
 
 }
 
 @Composable
-fun ProductList() {
+fun ProductSection(data: List<Product>) {
     LazyRow(
-        modifier = Modifier.padding(top = 16.dp), contentPadding = PaddingValues(end = 16.dp)
+        modifier = Modifier.padding(top = 16.dp),
+        contentPadding = PaddingValues(end = 16.dp)
     ) {
 
-        items(10) {
-
-            ProductItem()
-
+        items(data.size) {
+            ProductItem(data[it])
         }
 
     }
 }
 
 @Composable
-fun ProductItem() {
+fun ProductItem(item: Product) {
     Card(
         modifier = Modifier
             .padding(start = 16.dp)
@@ -214,9 +243,9 @@ fun ProductItem() {
     ) {
 
         Column {
-            Image(
+            AsyncImage(
                 modifier = Modifier.size(200.dp),
-                painter = painterResource(id = R.drawable.img_intro),
+                model = item.imgUrl,
                 contentDescription = null,
                 contentScale = ContentScale.Crop
             )
@@ -224,17 +253,17 @@ fun ProductItem() {
             Column(modifier = Modifier.padding(10.dp)) {
 
                 Text(
-                    text = "Diamond Bags",
+                    text = item.name,
                     style = TextStyle(fontSize = 15.sp),
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = "$8,000",
+                    text = "$" + item.price,
                     style = TextStyle(fontSize = 14.sp),
                     modifier = Modifier.padding(top = 4.dp)
                 )
                 Text(
-                    text = "156 sold",
+                    text = item.soldItem + " sold",
                     style = TextStyle(fontSize = 13.sp, color = Color.Gray),
                     modifier = Modifier.padding(top = 2.dp)
                 )

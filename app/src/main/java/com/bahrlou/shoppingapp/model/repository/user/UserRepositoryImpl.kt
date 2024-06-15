@@ -45,6 +45,9 @@ class UserRepositoryImpl(
 
         if (result.success) {
 
+            TokenInMemory.refreshToken(username, result.token)
+
+
             //save token in sharedPref
             saveToken(result.token)
             saveUsername(username)
