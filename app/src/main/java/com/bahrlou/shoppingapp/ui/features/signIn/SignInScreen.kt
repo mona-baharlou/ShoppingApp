@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.bahrlou.shoppingapp.R
+import com.bahrlou.shoppingapp.ui.features.signUp.SignUpViewModel
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
@@ -90,9 +91,9 @@ fun SignInScreen() {
 
     val navigation = getNavController()
     val context = LocalContext.current
-    val viewModel = getViewModel<SignInViewModel>(
-        //viewModelStoreOwner = navigation.getBackStackEntry("root")
-    )
+    val viewModel = getViewModel<SignInViewModel>()
+
+    clearInputs(viewModel)
 
     Box {
 
@@ -118,7 +119,7 @@ fun SignInScreen() {
                     if (it == SUCCESS) {
                         navigation.navigate(MyScreens.MainScreen.route)
                         {
-                            popUpTo(MyScreens.IntroScreen.route) {
+                            popUpTo(MyScreens.MainScreen.route) {
                                 inclusive = true
                             }
                         }
@@ -203,7 +204,7 @@ fun MainCardView(navigation: NavController, viewModel: SignInViewModel, signInEv
 
                 TextButton(onClick = {
                     navigation.navigate(MyScreens.MainScreen.route) {
-                        popUpTo(MyScreens.IntroScreen.route) {
+                        popUpTo(MyScreens.MainScreen.route) {
                             inclusive = true
                         }
                     }
@@ -283,6 +284,7 @@ fun MainTextField(
 
 ) {
     OutlinedTextField(
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
         label = { Text(hint) },
         value = edtValue,
         singleLine = true,
@@ -341,6 +343,12 @@ fun PasswordTextField(
             })
         })
 }
+
+fun clearInputs(viewModel: SignInViewModel) {
+    viewModel.email.value = ""
+    viewModel.password.value = ""
+}
+
 
 
 

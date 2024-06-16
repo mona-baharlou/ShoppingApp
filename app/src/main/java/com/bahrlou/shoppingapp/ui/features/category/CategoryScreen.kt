@@ -126,7 +126,7 @@ fun ProductItem(data: Product, onProductClicked: (String) -> Unit) {
                 ) {
                     Text(
                         modifier = Modifier.padding(4.dp),
-                        text = data.soldItem,
+                        text = data.soldItem + " sold",
                         style = TextStyle(
                             fontSize = 13.sp,
                             fontWeight = FontWeight.Medium,

@@ -74,7 +74,7 @@ fun ShoppingUi() {
     ) {
         composable(MyScreens.MainScreen.route) {
 
-            if (TokenInMemory.token != null && TokenInMemory.token != "") {
+            if (TokenInMemory.token != null ) {
                 MainScreen()
             } else {
                 IntroScreen()
@@ -117,10 +117,10 @@ fun ShoppingUi() {
             SignInScreen()
         }
 
-        composable(MyScreens.IntroScreen.route) {
+       /* composable(MyScreens.IntroScreen.route) {
             IntroScreen()
         }
-
+*/
     }
 }
 
