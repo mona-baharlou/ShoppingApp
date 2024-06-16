@@ -49,8 +49,10 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
+import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.TAGS
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -76,6 +78,7 @@ fun MainScreen() {
 
     val viewModel =
         getViewModel<MainViewModel>(parameters = { parametersOf(InternetChecker(context).isInternetConnected) })
+    val navigation = getNavController()
 
     Column(
         modifier = Modifier
@@ -87,28 +90,37 @@ fun MainScreen() {
 
         SetProgressVisibility(viewModel)
 
-        TopToolbar()
+        TopToolbar(
+            onCartClicked = {
+                navigation.navigate(MyScreens.CartScreen.route)
+            },
+            onProfileClicked = {
+                navigation.navigate(MyScreens.ProfileScreen.route)
+            })
 
-        CategorySection(CATEGORY)
+        CategorySection(CATEGORY) {
+            navigation.navigate(MyScreens.CartScreen.route + "/" + it)
+        }
 
         val productDataState = viewModel.productData
         val advDataState = viewModel.advData
 
-        SetProductSectionData(TAGS, productDataState.value, advDataState.value)
+        SetProductSectionData(TAGS, productDataState.value, advDataState.value) {
+            navigation.navigate(MyScreens.ProductScreen.route + "/" + it)
 
+        }
 
-        /* CategorySection()
-         ProductByCategory()//subject
-         ProductByCategory()
-         AdvertisementSection()
-         ProductByCategory()
-         ProductByCategory()*/
     }
 
 }
 
 @Composable
-fun SetProductSectionData(tags: List<String>, products: List<Product>, ads: List<Ads>) {
+fun SetProductSectionData(
+    tags: List<String>,
+    products: List<Product>,
+    ads: List<Ads>,
+    onProductClicked: (String) -> Unit
+) {
 
     val context = LocalContext.current
 
@@ -121,11 +133,11 @@ fun SetProductSectionData(tags: List<String>, products: List<Product>, ads: List
                     product.tags == tags[it]
                 }
 
-                ProductByCategory(tags[it], filteredProduct.shuffled())
+                ProductByCategory(tags[it], filteredProduct.shuffled(), onProductClicked)
 
                 if (ads.size >= 2) {
                     if (it == 1 || it == 2) {
-                        AdvertisementSection(ads[it - 1])
+                        AdvertisementSection(ads[it - 1], onProductClicked)
                     }
                 }
 
@@ -146,17 +158,17 @@ private fun SetProgressVisibility(viewModel: MainViewModel) {
 
 //**************************** TOOLBAR **********************************/
 @Composable
-fun TopToolbar() {
+fun TopToolbar(onCartClicked: () -> Unit, onProfileClicked: () -> Unit) {
 
     TopAppBar(backgroundColor = Color.White,
         title = { Text(text = "Shopping App") },
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = {}) {
+            IconButton(onClick = { onCartClicked.invoke() }) {
                 Icon(Icons.Default.ShoppingCart, null)
             }
 
-            IconButton(onClick = {}) {
+            IconButton(onClick = { onProfileClicked.invoke() }) {
                 Icon(Icons.Default.Person, null)
             }
         })
@@ -166,23 +178,23 @@ fun TopToolbar() {
 //**************************** CATEGORY **********************************/
 
 @Composable
-fun CategorySection(categoryList: List<Pair<String, Int>>) {
+fun CategorySection(categoryList: List<Pair<String, Int>>, onCategoryClicked: (String) -> Unit) {
     LazyRow(
         modifier = Modifier.padding(top = 16.dp), contentPadding = PaddingValues(end = 16.dp)
     ) {
 
         items(categoryList.size) {
-            CategoryItem(categoryList[it])
+            CategoryItem(categoryList[it], onCategoryClicked)
         }
     }
 }
 
 @Composable
-fun CategoryItem(item: Pair<String, Int>) {
+fun CategoryItem(item: Pair<String, Int>, onCategoryClicked: (String) -> Unit) {
     Column(
         modifier = Modifier
             .padding(start = 16.dp)
-            .clickable {},
+            .clickable { onCategoryClicked.invoke(item.first) },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Surface(
@@ -208,7 +220,7 @@ fun CategoryItem(item: Pair<String, Int>) {
 //**************************** Products **********************************/
 
 @Composable
-fun ProductByCategory(tag: String, data: List<Product>) {
+fun ProductByCategory(tag: String, data: List<Product>, onProductClicked: (String) -> Unit) {
 
     Column(
         modifier = Modifier.padding(
@@ -222,32 +234,32 @@ fun ProductByCategory(tag: String, data: List<Product>) {
             style = MaterialTheme.typography.h6
         )
 
-        ProductSection(data)
+        ProductSection(data, onProductClicked)
     }
 
 
 }
 
 @Composable
-fun ProductSection(data: List<Product>) {
+fun ProductSection(data: List<Product>, onProductClicked: (String) -> Unit) {
     LazyRow(
         modifier = Modifier.padding(top = 16.dp),
         contentPadding = PaddingValues(end = 16.dp)
     ) {
 
         items(data.size) {
-            ProductItem(data[it])
+            ProductItem(data[it], onProductClicked)
         }
 
     }
 }
 
 @Composable
-fun ProductItem(item: Product) {
+fun ProductItem(item: Product, onProductClicked: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(start = 16.dp)
-            .clickable { },
+            .clickable { onProductClicked(item.productId)},
         elevation = 4.dp,
         shape = Shapes.medium
     ) {
@@ -286,14 +298,14 @@ fun ProductItem(item: Product) {
 //**************************** Advertisement Image **********************************/
 
 @Composable
-fun AdvertisementSection(adv: Ads) {
+fun AdvertisementSection(adv: Ads, onProductClicked: (String) -> Unit) {
     AsyncImage(
         modifier = Modifier
             .fillMaxWidth()
             .height(260.dp)
             .padding(top = 32.dp, start = 16.dp, end = 16.dp)
             .clip(shape = Shapes.medium)
-            .clickable { },
+            .clickable { onProductClicked.invoke(adv.productId) },
         model = adv.imageURL,
         contentDescription = null,
         contentScale = ContentScale.Crop

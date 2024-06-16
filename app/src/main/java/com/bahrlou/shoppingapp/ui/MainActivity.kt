@@ -9,8 +9,10 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
@@ -82,21 +84,21 @@ fun ShoppingUi() {
 
 
         composable(
-            route = "${MyScreens.ProductScreen.route}" /*+
-                    "/$KEY_PRODUCT_ARG",
+            route = "${MyScreens.ProductScreen.route}" +
+                    "/{$KEY_PRODUCT_ARG}",
             arguments = listOf(navArgument(KEY_PRODUCT_ARG) {
-                type = NavType.IntType
-            })*/
+                type = NavType.StringType
+            })
         ) {
-            ProductScreen(it.arguments!!.getInt(KEY_PRODUCT_ARG, -1)) //productId
+            ProductScreen(it.arguments!!.getString(KEY_PRODUCT_ARG, "null")) //productId
         }
 
         composable(
-            route = "${MyScreens.CategoryScreen.route}" /*+
-                    "/$KEY_CATEGORY_ARG",
+            route = "${MyScreens.CategoryScreen.route}" +
+                    "/{$KEY_CATEGORY_ARG}",
             arguments = listOf(navArgument(KEY_CATEGORY_ARG) {
                 type = NavType.StringType
-            })*/
+            })
         ) {
             CategoryScreen(it.arguments!!.getString(KEY_CATEGORY_ARG, "null"))
         }
@@ -152,7 +154,7 @@ fun CategoryScreen(categoryName: String) {
 }
 
 @Composable
-fun ProductScreen(productId: Int) {
+fun ProductScreen(productId: String) {
 
 
 }
