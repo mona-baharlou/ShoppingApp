@@ -119,22 +119,9 @@ fun ShoppingUi() {
             SignInScreen()
         }
 
-        composable(MyScreens.IntroScreen.route) {
-            IntroScreen()
-        }
-
-        composable(MyScreens.NoInternetScreen.route) {
-            NoInternetScreen()
-        }
-
     }
 }
 
-@Composable
-fun NoInternetScreen() {
-
-
-}
 
 @Composable
 fun CartScreen() {
