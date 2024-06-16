@@ -8,6 +8,7 @@ import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepositoryImpl
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.model.repository.user.UserRepositoryImpl
+import com.bahrlou.shoppingapp.ui.features.category.CategoryViewModel
 import com.bahrlou.shoppingapp.ui.features.main.MainViewModel
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInViewModel
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpViewModel
@@ -42,5 +43,5 @@ val shoppingModules = module {
     viewModel { SignUpViewModel(get()) }
     viewModel { SignInViewModel(get()) }
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
-
+    viewModel { CategoryViewModel(get()) }
 }

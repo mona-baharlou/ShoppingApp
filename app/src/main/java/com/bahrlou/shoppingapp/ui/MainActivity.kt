@@ -17,6 +17,7 @@ import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.features.category.CategoryScreen
 import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInScreen
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpScreen
@@ -138,10 +139,7 @@ fun ProfileScreen() {
 
 }
 
-@Composable
-fun CategoryScreen(categoryName: String) {
 
-}
 
 @Composable
 fun ProductScreen(productId: String) {
