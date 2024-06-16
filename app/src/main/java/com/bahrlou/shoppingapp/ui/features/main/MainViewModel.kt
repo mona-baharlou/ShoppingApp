@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.bahrlou.shoppingapp.model.data.Ads
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
+import com.bahrlou.shoppingapp.util.coroutineExceptionHandler
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,7 +25,8 @@ class MainViewModel(
     }
 
     private fun getDataFromNet(isInternetConnected: Boolean) {
-        viewModelScope.launch {
+
+        viewModelScope.launch(coroutineExceptionHandler) {
 
             if (isInternetConnected) {
                 showProgressBar.value = true

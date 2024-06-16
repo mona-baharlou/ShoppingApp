@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
+import com.bahrlou.shoppingapp.util.coroutineExceptionHandler
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() {
@@ -17,7 +18,7 @@ class SignUpViewModel(private val userRepository: UserRepository) : ViewModel() 
 
     fun userSignUp(LoggingEvent: (String) -> Unit) {
 
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineExceptionHandler) {
             val result = userRepository.signUp(name.value!!, email.value!!, password.value!!)
             LoggingEvent(result)
         }
