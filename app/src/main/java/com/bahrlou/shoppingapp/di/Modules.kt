@@ -45,5 +45,5 @@ val shoppingModules = module {
     viewModel { SignInViewModel(get()) }
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
     viewModel { CategoryViewModel(get()) }
-    viewModel { ProductViewModel() }
+    viewModel { ProductViewModel(get()) }
 }

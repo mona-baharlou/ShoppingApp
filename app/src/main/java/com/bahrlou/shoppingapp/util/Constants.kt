@@ -1,6 +1,7 @@
 package com.bahrlou.shoppingapp.util
 
 import com.bahrlou.shoppingapp.R
+import com.bahrlou.shoppingapp.model.data.Product
 
 const val KEY_PRODUCT_ARG = "productId"
 const val KEY_CATEGORY_ARG = "categoryName"
@@ -28,3 +29,5 @@ val TAGS = listOf(
     "Most Visited",
     "Best Quality"
 )
+
+val EMPTY_PRODUCT = Product("", "", "", "", "", "", "", "", "", "")

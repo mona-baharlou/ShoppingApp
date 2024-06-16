@@ -66,6 +66,7 @@ fun ProductScreen(
     val context = LocalContext.current
     val navigation = getNavController()
     val viewModel = getViewModel<ProductViewModel>()
+    viewModel.loadData(productId)
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -99,8 +100,9 @@ fun ProductScreen(
                 }
             )
 
+            ProductItem(data = viewModel.product.value) {
 
-            ProductInfoSection(){}
+            }
 
 
         }
@@ -110,6 +112,17 @@ fun ProductScreen(
 
     }
 
+}
+
+@Composable
+fun ProductItem(data: Product, OnCategoryClicked: (String) -> Unit) {
+
+    Column(
+        modifier = Modifier.padding()
+    ) {
+        ProductInfoSection(data, OnCategoryClicked)
+
+    }
 }
 
 @Composable
