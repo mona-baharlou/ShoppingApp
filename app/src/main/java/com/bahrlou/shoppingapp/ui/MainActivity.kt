@@ -69,9 +69,8 @@ fun ShoppingUi() {
 
     KoinNavHost(
         navController = navController,
-        startDestination = MyScreens.IntroScreen.route
+        startDestination = MyScreens.MainScreen.route
     ) {
-
         composable(MyScreens.MainScreen.route) {
 
             if (TokenInMemory.token != null && TokenInMemory.token != "") {
@@ -84,8 +83,7 @@ fun ShoppingUi() {
 
 
         composable(
-            route = "${MyScreens.ProductScreen.route}" +
-                    "/{$KEY_PRODUCT_ARG}",
+            route = "${MyScreens.ProductScreen.route}/{${KEY_PRODUCT_ARG}}",
             arguments = listOf(navArgument(KEY_PRODUCT_ARG) {
                 type = NavType.StringType
             })
@@ -94,8 +92,7 @@ fun ShoppingUi() {
         }
 
         composable(
-            route = "${MyScreens.CategoryScreen.route}" +
-                    "/{$KEY_CATEGORY_ARG}",
+            route = "${MyScreens.CategoryScreen.route}/{${KEY_CATEGORY_ARG}}",
             arguments = listOf(navArgument(KEY_CATEGORY_ARG) {
                 type = NavType.StringType
             })
@@ -119,12 +116,18 @@ fun ShoppingUi() {
             SignInScreen()
         }
 
+        composable(MyScreens.IntroScreen.route) {
+            IntroScreen()
+        }
+
     }
 }
 
 
 @Composable
 fun CartScreen() {
+//1,424,000
+//217682
 
 
 }

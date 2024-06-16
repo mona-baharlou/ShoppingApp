@@ -99,7 +99,7 @@ fun MainScreen() {
             })
 
         CategorySection(CATEGORY) {
-            navigation.navigate(MyScreens.CartScreen.route + "/" + it)
+            navigation.navigate(MyScreens.CategoryScreen.route + "/" + it)
         }
 
         val productDataState = viewModel.productData
