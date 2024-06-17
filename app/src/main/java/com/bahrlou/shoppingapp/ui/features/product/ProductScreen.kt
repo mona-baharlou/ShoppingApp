@@ -1,16 +1,21 @@
 package com.bahrlou.shoppingapp.ui.features.product
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
+import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
@@ -27,6 +32,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Product
+import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
@@ -58,10 +66,7 @@ fun ProductScreenPreview() {
 }
 
 @Composable
-fun ProductScreen(
-    productId: String, onBackClicked: () -> Unit,
-    onCartClicked: () -> Unit
-) {
+fun ProductScreen(productId: String) {
 
     val context = LocalContext.current
     val navigation = getNavController()
@@ -100,10 +105,10 @@ fun ProductScreen(
                 }
             )
 
-            ProductItem(data = viewModel.product.value) {
-
-            }
-
+            ProductItem(data = viewModel.product.value,
+                OnCategoryClicked = {
+                    navigation.navigate(MyScreens.CategoryScreen.route + "/${it}")
+                })
 
         }
 
@@ -118,11 +123,90 @@ fun ProductScreen(
 fun ProductItem(data: Product, OnCategoryClicked: (String) -> Unit) {
 
     Column(
-        modifier = Modifier.padding()
+        modifier = Modifier.padding(16.dp)
     ) {
         ProductInfoSection(data, OnCategoryClicked)
 
+        Divider(
+            color = Color.LightGray,
+            thickness = 1.dp,
+            modifier = Modifier.padding(top = 14.dp, bottom = 14.dp)
+        )
+
+        ProductDetail(data, 5)
+
     }
+}
+
+@Composable
+fun ProductDetail(data: Product, commentNumber: Int) {
+
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+
+        Column {
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Image(
+                    painterResource(id = R.drawable.ic_details_comment),
+                    contentDescription = null,
+                    modifier = Modifier.size(
+                        26.dp
+                    )
+                )
+
+                Text(
+                    text = "$commentNumber Comments",
+                    modifier = Modifier.padding(start = 6.dp),
+                    fontSize = 13.sp
+                )
+
+            }
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Image(
+                    painterResource(id = R.drawable.ic_details_material),
+                    contentDescription = null,
+                    modifier = Modifier.size(
+                        26.dp
+                    )
+                )
+
+                Text(
+                    text = data.material,
+                    modifier = Modifier.padding(start = 6.dp),
+                    fontSize = 13.sp
+                )
+
+            }
+
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+                Image(
+                    painterResource(id = R.drawable.ic_details_sold),
+                    contentDescription = null,
+                    modifier = Modifier.size(
+                        26.dp
+                    )
+                )
+
+                Text(
+                    text = "${data.soldItem} Sold",
+                    modifier = Modifier.padding(start = 6.dp),
+                    fontSize = 13.sp
+                )
+
+            }
+
+        }
+
+    }
+
 }
 
 @Composable
