@@ -45,6 +45,7 @@ import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
+import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
@@ -166,7 +167,10 @@ fun ProductDetail(data: Product, commentNumber: Int) {
 
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 10.dp)
+            ) {
 
                 Image(
                     painterResource(id = R.drawable.ic_details_material),
@@ -184,8 +188,10 @@ fun ProductDetail(data: Product, commentNumber: Int) {
 
             }
 
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(top = 10.dp)
+            ) {
 
                 Image(
                     painterResource(id = R.drawable.ic_details_sold),
@@ -202,6 +208,20 @@ fun ProductDetail(data: Product, commentNumber: Int) {
                 )
 
             }
+
+        }
+
+        Surface(
+            modifier = Modifier
+                .clip(Shapes.large)
+                .align(Alignment.Bottom),
+            color = Blue
+        ) {
+            Text(
+                text = data.tags, color = Color.White,
+                modifier = Modifier.padding(6.dp),
+                style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
+            )
 
         }
 
