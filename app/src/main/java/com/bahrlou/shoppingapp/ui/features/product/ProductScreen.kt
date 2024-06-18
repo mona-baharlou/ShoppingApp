@@ -2,6 +2,7 @@ package com.bahrlou.shoppingapp.ui.features.product
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
+import com.bahrlou.shoppingapp.model.data.Comment
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
@@ -72,7 +74,7 @@ fun ProductScreen(productId: String) {
     val context = LocalContext.current
     val navigation = getNavController()
     val viewModel = getViewModel<ProductViewModel>()
-    viewModel.loadData(productId)
+    viewModel.loadData(productId, InternetChecker(context).isInternetConnected)
 
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -107,6 +109,7 @@ fun ProductScreen(productId: String) {
             )
 
             ProductItem(data = viewModel.product.value,
+                comments = viewModel.comments.value,
                 OnCategoryClicked = {
                     navigation.navigate(MyScreens.CategoryScreen.route + "/${it}")
                 })
@@ -121,7 +124,7 @@ fun ProductScreen(productId: String) {
 }
 
 @Composable
-fun ProductItem(data: Product, OnCategoryClicked: (String) -> Unit) {
+fun ProductItem(data: Product, comments: List<Comment>, OnCategoryClicked: (String) -> Unit) {
 
     Column(
         modifier = Modifier.padding(16.dp)
@@ -134,13 +137,22 @@ fun ProductItem(data: Product, OnCategoryClicked: (String) -> Unit) {
             modifier = Modifier.padding(top = 14.dp, bottom = 14.dp)
         )
 
-        ProductDetail(data, 5)
+        ProductDetail(data, comments.size)
+
+        Divider(
+            color = Color.LightGray,
+            thickness = 1.dp,
+            modifier = Modifier.padding(top = 14.dp)
+        )
+
+
+
 
     }
 }
 
 @Composable
-fun ProductDetail(data: Product, commentNumber: Int) {
+fun ProductDetail(data: Product, commentNumber: Int,) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),

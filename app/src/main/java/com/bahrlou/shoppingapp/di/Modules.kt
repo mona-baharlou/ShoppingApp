@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.bahrlou.shoppingapp.model.db.AppDatabase
 import com.bahrlou.shoppingapp.model.net.createApiService
+import com.bahrlou.shoppingapp.model.repository.comment.CommentRepository
+import com.bahrlou.shoppingapp.model.repository.comment.CommentRepositoryImpl
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepositoryImpl
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
@@ -31,6 +33,7 @@ val shoppingModules = module {
 
     //Repositories
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
+    single<CommentRepository> { CommentRepositoryImpl(get()) }
 
     single<ProductRepository> {
         ProductRepositoryImpl(
@@ -40,10 +43,10 @@ val shoppingModules = module {
     }
 
 
-//ViewModels
+    //ViewModels
     viewModel { SignUpViewModel(get()) }
     viewModel { SignInViewModel(get()) }
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
     viewModel { CategoryViewModel(get()) }
-    viewModel { ProductViewModel(get()) }
+    viewModel { ProductViewModel(get(), get()) }
 }

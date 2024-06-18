@@ -1,6 +1,7 @@
 package com.bahrlou.shoppingapp.model.net
 
 import com.bahrlou.shoppingapp.model.data.AdsResponse
+import com.bahrlou.shoppingapp.model.data.CommentResponse
 import com.bahrlou.shoppingapp.model.data.LoginResponse
 import com.bahrlou.shoppingapp.model.data.ProductResponse
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
@@ -31,6 +32,9 @@ interface ApiService {
 
     @GET("getProducts")
     suspend fun getProducts(): ProductResponse
+
+    @GET("getComments")
+    suspend fun getComments(@Body jsonObject: JsonObject): CommentResponse
 }
 
 fun createApiService(): ApiService {
