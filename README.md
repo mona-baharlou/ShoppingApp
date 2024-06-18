@@ -6,7 +6,12 @@
 
 ## Features
 
-Shows list of bags and user can add it to cart
+ - Shows list of products 
+ - Register & Login pages are implemented 
+ - user can add products to cart
+ - commenting is enabled for users
+ - user can save his information in his Profile
+
 
 ## Technologies Used
 
