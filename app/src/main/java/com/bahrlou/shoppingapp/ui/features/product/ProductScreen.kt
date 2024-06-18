@@ -82,8 +82,10 @@ import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.stylePrice
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
+import kotlinx.coroutines.processNextEventInCurrentThread
 
 
 @Preview(showBackground = true)
@@ -143,8 +145,11 @@ fun ProductScreen(productId: String) {
                 }
             )
 
+            val comments =
+                if (InternetChecker(context).isInternetConnected) viewModel.comments.value else listOf()
+
             ProductItem(data = viewModel.product.value,
-                comments = viewModel.comments.value,
+                comments = comments,
                 OnCategoryClicked = {
                     navigation.navigate(MyScreens.CategoryScreen.route + "/${it}")
                 },
@@ -218,6 +223,8 @@ fun ProductItem(
 @Composable
 fun ProductDetail(data: Product, commentNumber: Int) {
 
+    val context = LocalContext.current
+
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
@@ -235,8 +242,14 @@ fun ProductDetail(data: Product, commentNumber: Int) {
                     )
                 )
 
+                val commentText = if(InternetChecker(context).isInternetConnected) {
+                    "$commentNumber Comments"
+                }
+                else{
+                    stringResource(R.string.needs_internet_for_showing_comments)
+                }
                 Text(
-                    text = "$commentNumber Comments",
+                    text = commentText,
                     modifier = Modifier.padding(start = 6.dp),
                     fontSize = 13.sp
                 )
@@ -457,7 +470,7 @@ fun AddToCart(
                         top = 6.dp,
                         bottom = 6.dp
                     ),
-                    text = price,
+                    text = stylePrice(price),
                     style = TextStyle(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Medium
@@ -527,6 +540,7 @@ fun DotsTyping() {
         Dot(offset3)
     }
 }
+
 
 
 /****************************** Comments ************************************/
