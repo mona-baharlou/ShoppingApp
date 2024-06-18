@@ -71,7 +71,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.sqlite.db.SupportSQLiteOpenHelper
 import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Comment
@@ -130,7 +129,7 @@ fun ProductScreen(productId: String) {
 
             ProductToolbar(
                 name = "Details",
-                badgeNumber = 4,
+                badgeNumber = viewModel.badgeNumber.value,
                 onBackClicked = {
                     navigation.popBackStack()
                 },
@@ -415,7 +414,8 @@ fun AddToCart(
     OnCartClicked: () -> Unit
 ) {
     val config = LocalConfiguration.current
-    val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+    val fraction =
+        if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
         0.15 else 0.08
 
     Surface(
@@ -527,8 +527,6 @@ fun DotsTyping() {
         Dot(offset3)
     }
 }
-
-
 
 
 /****************************** Comments ************************************/

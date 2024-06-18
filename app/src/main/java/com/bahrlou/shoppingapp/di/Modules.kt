@@ -49,7 +49,7 @@ val shoppingModules = module {
     //ViewModels
     viewModel { SignUpViewModel(get()) }
     viewModel { SignInViewModel(get()) }
-    viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), isInternetConnected) }
+    viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), get(), isInternetConnected) }
     viewModel { CategoryViewModel(get()) }
-    viewModel { ProductViewModel(get(), get(),get()) }
+    viewModel { ProductViewModel(get(), get(), get()) }
 }

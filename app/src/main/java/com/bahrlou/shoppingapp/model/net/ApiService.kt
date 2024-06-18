@@ -6,6 +6,7 @@ import com.bahrlou.shoppingapp.model.data.CartResponse
 import com.bahrlou.shoppingapp.model.data.CommentResponse
 import com.bahrlou.shoppingapp.model.data.LoginResponse
 import com.bahrlou.shoppingapp.model.data.ProductResponse
+import com.bahrlou.shoppingapp.model.data.UserCartInfo
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.util.BASE_URL
 import com.google.gson.JsonObject
@@ -43,6 +44,10 @@ interface ApiService {
 
     @POST("addToCart")
     suspend fun addProductToCart(@Body jsonObject: JsonObject): CartResponse
+
+    @GET("getUserCart")
+    suspend fun getUserCart(): UserCartInfo
+
 }
 
 fun createApiService(): ApiService {

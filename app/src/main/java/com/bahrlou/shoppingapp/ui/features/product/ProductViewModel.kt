@@ -22,6 +22,7 @@ class ProductViewModel(
     val product = mutableStateOf(EMPTY_PRODUCT)
     val comments = mutableStateOf(listOf<Comment>())
     val isProductAdding = mutableStateOf(false)
+    val badgeNumber = mutableStateOf(0)
 
     private fun loadProductFromCache(productId: String) {
 
@@ -33,8 +34,10 @@ class ProductViewModel(
     fun loadData(productId: String, isInternetConnected: Boolean) {
         loadProductFromCache(productId)
 
-        if (isInternetConnected)
+        if (isInternetConnected) {
             getComments(productId)
+            getBadgeNumber()
+        }
     }
 
     private fun getComments(productId: String) {
@@ -65,12 +68,18 @@ class ProductViewModel(
             delay(500)
             isProductAdding.value = false
 
-            if(result){
+            if (result) {
                 addingToCartResult.invoke("Product is added to cart")
-            }
-            else{
+            } else {
                 addingToCartResult.invoke("Product does not added to cart!")
             }
+        }
+    }
+
+
+    private fun getBadgeNumber() {
+        viewModelScope.launch(coroutineExceptionHandler) {
+            badgeNumber.value = cartRepository.getBadgeNumber()
         }
     }
 }

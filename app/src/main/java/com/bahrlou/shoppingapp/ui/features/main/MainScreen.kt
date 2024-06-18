@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Badge
+import androidx.compose.material.BadgedBox
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -82,6 +85,9 @@ fun MainScreen() {
         getViewModel<MainViewModel>(parameters = { parametersOf(InternetChecker(context).isInternetConnected) })
     val navigation = getNavController()
 
+    if (InternetChecker(context).isInternetConnected)
+        viewModel.getBadgeNumber()
+
     Box {
         Column(
             modifier = Modifier
@@ -95,6 +101,7 @@ fun MainScreen() {
             SetProgressVisibility(viewModel)
 
             TopToolbar(
+                viewModel.badgeNumber.value,
                 onCartClicked = {
                     navigation.navigate(MyScreens.CartScreen.route)
                 },
@@ -162,14 +169,29 @@ private fun SetProgressVisibility(viewModel: MainViewModel) {
 
 //**************************** TOOLBAR **********************************/
 @Composable
-fun TopToolbar(onCartClicked: () -> Unit, onProfileClicked: () -> Unit) {
+fun TopToolbar(
+    badgeNumber: Int,
+    onCartClicked: () -> Unit, onProfileClicked: () -> Unit
+) {
 
     TopAppBar(backgroundColor = Color.White,
         title = { Text(text = "Shopping App") },
         elevation = 0.dp,
         actions = {
-            IconButton(onClick = { onCartClicked.invoke() }) {
-                Icon(Icons.Default.ShoppingCart, null)
+            IconButton(
+                onClick = { onCartClicked.invoke() }
+            ) {
+                if (badgeNumber == 0) {
+                    Icon(Icons.Default.ShoppingCart, contentDescription = null)
+                } else {
+                    BadgedBox(badge = {
+                        Badge {
+                            Text(text = badgeNumber.toString())
+                        }
+                    }) {
+                        Icon(Icons.Default.ShoppingCart, contentDescription = null)
+                    }
+                }
             }
 
             IconButton(onClick = { onProfileClicked.invoke() }) {
