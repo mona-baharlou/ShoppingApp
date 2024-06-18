@@ -16,10 +16,11 @@
 ## Technologies Used
 
 - Kotlin programming language
-- Jetpack Compose UI toolkit
+- Jetpack Compose
 - Koin dependency injection
 - MVVM architecture pattern
 - Coroutines for asynchronous programming
 - Room for offline data loading
+- Retrofit for getting data from server
 
 
