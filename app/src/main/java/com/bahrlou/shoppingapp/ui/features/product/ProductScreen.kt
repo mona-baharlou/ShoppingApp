@@ -2,6 +2,7 @@ package com.bahrlou.shoppingapp.ui.features.product
 
 import androidx.compose.ui.window.Dialog
 import android.content.Context
+import android.content.res.Configuration
 import android.widget.Toast
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
@@ -58,6 +59,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -69,6 +71,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.sqlite.db.SupportSQLiteOpenHelper
 import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Comment
@@ -411,10 +414,14 @@ fun AddToCart(
     isProductAdding: Boolean,
     OnCartClicked: () -> Unit
 ) {
+    val config = LocalConfiguration.current
+    val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        0.15 else 0.08
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.1f),
+            .fillMaxHeight(0.15f),
         color = Color.White
     ) {
         Row(
