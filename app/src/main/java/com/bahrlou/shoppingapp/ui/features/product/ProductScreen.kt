@@ -3,8 +3,14 @@ package com.bahrlou.shoppingapp.ui.features.product
 import androidx.compose.ui.window.Dialog
 import android.content.Context
 import android.widget.Toast
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,17 +21,20 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -40,11 +49,13 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -64,6 +75,7 @@ import com.bahrlou.shoppingapp.model.data.Comment
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
+import com.bahrlou.shoppingapp.ui.theme.PriceBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.InternetChecker
@@ -80,7 +92,10 @@ fun ProductScreenPreview() {
             modifier = Modifier.fillMaxSize(), color = BackgroundMain
         ) {
             //ProductScreen("")
-            NewCommentDialog(OnDismiss = { /*TODO*/ }) {
+            /*NewCommentDialog(OnDismiss = { *//*TODO*//* }) {
+
+            }*/
+            AddToCart(price = "10000", isProductAdding = false) {
 
             }
         }
@@ -396,8 +411,116 @@ fun AddToCart(
     isProductAdding: Boolean,
     OnCartClicked: () -> Unit
 ) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(0.1f),
+        color = Color.White
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Button(modifier = Modifier
+                .padding(start = 16.dp)
+                .size(182.dp),
+                onClick = { OnCartClicked.invoke() }) {
+
+                if (isProductAdding) {
+                    DotsTyping()
+                } else {
+                    Text(
+                        text = "Add Product To Cart",
+                        modifier = Modifier.padding(2.dp),
+                        color = Color.White,
+                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                    )
+                }
+            }
+
+            Surface(
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .clip(shape = Shapes.large),
+                color = PriceBackground
+            ) {
+                Text(
+                    modifier = Modifier.padding(
+                        start = 8.dp,
+                        end = 8.dp,
+                        top = 6.dp,
+                        bottom = 6.dp
+                    ),
+                    text = price,
+                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                )
+
+            }
+
+        }
+
+    }
 
 }
+
+@Composable
+fun DotsTyping() {
+
+    val dotSize = 10.dp
+    val delayUnit = 350
+    val maxOffset = 10f
+
+    @Composable
+    fun Dot(
+        offset: Float
+    ) = Spacer(
+        Modifier
+            .size(dotSize)
+            .offset(y = -offset.dp)
+            .background(
+                color = Color.White,
+                shape = CircleShape
+            )
+            .padding(start = 8.dp, end = 8.dp)
+    )
+
+    val infiniteTransition = rememberInfiniteTransition()
+
+    @Composable
+    fun animateOffsetWithDelay(delay: Int) = infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = delayUnit * 4
+                0f at delay with LinearEasing
+                maxOffset at delay + delayUnit with LinearEasing
+                0f at delay + delayUnit * 2
+            }
+        )
+    )
+
+    val offset1 by animateOffsetWithDelay(0)
+    val offset2 by animateOffsetWithDelay(delayUnit)
+    val offset3 by animateOffsetWithDelay(delayUnit * 2)
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier.padding(top = maxOffset.dp)
+    ) {
+        val spaceSize = 2.dp
+
+        Dot(offset1)
+        Spacer(Modifier.width(spaceSize))
+        Dot(offset2)
+        Spacer(Modifier.width(spaceSize))
+        Dot(offset3)
+    }
+}
+
 
 /****************************** Comments ************************************/
 
