@@ -145,7 +145,8 @@ fun ProfileScreen() {
 fun DefaultPreview() {
     ShoppingAppTheme {
         Surface(
-            color = BackgroundMain, modifier = Modifier.fillMaxSize()
+            color = BackgroundMain,
+            modifier = Modifier.fillMaxSize()
         ) {
             ShoppingUi()
         }

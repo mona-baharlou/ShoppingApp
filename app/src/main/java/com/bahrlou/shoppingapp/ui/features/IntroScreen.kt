@@ -24,6 +24,7 @@ import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.MyScreens
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dev.burnoo.cokoin.get
 import dev.burnoo.cokoin.navigation.getNavController
 
 

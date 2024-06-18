@@ -2,13 +2,17 @@ package com.bahrlou.shoppingapp.ui.features.main
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -78,38 +82,40 @@ fun MainScreen() {
         getViewModel<MainViewModel>(parameters = { parametersOf(InternetChecker(context).isInternetConnected) })
     val navigation = getNavController()
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 16.dp)
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 58.dp)
+                .windowInsetsPadding(WindowInsets.statusBars)
 
-    ) {
+        ) {
 
-        SetProgressVisibility(viewModel)
+            SetProgressVisibility(viewModel)
 
-        TopToolbar(
-            onCartClicked = {
-                navigation.navigate(MyScreens.CartScreen.route)
-            },
-            onProfileClicked = {
-                navigation.navigate(MyScreens.ProfileScreen.route)
-            })
+            TopToolbar(
+                onCartClicked = {
+                    navigation.navigate(MyScreens.CartScreen.route)
+                },
+                onProfileClicked = {
+                    navigation.navigate(MyScreens.ProfileScreen.route)
+                })
 
-        CategorySection(CATEGORY) {
-            navigation.navigate(MyScreens.CategoryScreen.route + "/" + it)
+            CategorySection(CATEGORY) {
+                navigation.navigate(MyScreens.CategoryScreen.route + "/" + it)
+            }
+
+            val productDataState = viewModel.productData
+            val advDataState = viewModel.advData
+
+            SetProductSectionData(TAGS, productDataState.value, advDataState.value) {
+                navigation.navigate(MyScreens.ProductScreen.route + "/" + it)
+
+            }
+
         }
-
-        val productDataState = viewModel.productData
-        val advDataState = viewModel.advData
-
-        SetProductSectionData(TAGS, productDataState.value, advDataState.value) {
-            navigation.navigate(MyScreens.ProductScreen.route + "/" + it)
-
-        }
-
     }
-
 }
 
 @Composable
@@ -257,7 +263,7 @@ fun ProductItem(item: Product, onProductClicked: (String) -> Unit) {
     Card(
         modifier = Modifier
             .padding(start = 16.dp)
-            .clickable { onProductClicked(item.productId)},
+            .clickable { onProductClicked(item.productId) },
         elevation = 4.dp,
         shape = Shapes.medium
     ) {
