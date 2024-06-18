@@ -1,6 +1,8 @@
 package com.bahrlou.shoppingapp.ui.features.product
 
+import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +18,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
+import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -27,6 +30,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -146,13 +153,17 @@ fun ProductItem(data: Product, comments: List<Comment>, OnCategoryClicked: (Stri
         )
 
 
+        CommentSection(comments) {
+
+        }
 
 
     }
 }
 
+
 @Composable
-fun ProductDetail(data: Product, commentNumber: Int,) {
+fun ProductDetail(data: Product, commentNumber: Int) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -341,4 +352,94 @@ fun ProductToolbar(
 @Composable
 fun AddToCart() {
 
+}
+
+//****************************** Comments ********************************//
+
+@Composable
+fun CommentSection(comments: List<Comment>, AddNewComment: (String) -> Unit) {
+
+    val showCommentDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+
+    if (comments.isNotEmpty()) {
+
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.comments),
+                style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            )
+
+            AddComment(context, showCommentDialog)
+
+            comments.forEach {
+                CommentBody(comment = it)
+            }
+
+
+        }
+    } else {
+        AddComment(context, showCommentDialog)
+    }
+}
+
+@Composable
+private fun AddComment(
+    context: Context,
+    showCommentDialog: MutableState<Boolean>
+) {
+    TextButton(onClick = {
+        if (InternetChecker(context).isInternetConnected) {
+            showCommentDialog.value = true
+        } else {
+            Toast.makeText(
+                context,
+                context.getString(R.string.please_check_your_network_connectivity),
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+    }) {
+        Text(
+            text = "Add New Comment",
+            style = TextStyle(fontSize = 14.sp)
+        )
+
+    }
+}
+
+
+@Composable
+fun CommentBody(comment: Comment) {
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
+        elevation = 0.dp,
+        border = BorderStroke(1.dp, Color.LightGray),
+        shape = Shapes.large
+    ) {
+
+
+        Column(modifier = Modifier.padding(12.dp)) {
+
+            Text(
+                text = comment.userEmail,
+                style = TextStyle(fontSize = 15.sp, fontWeight = FontWeight.Bold)
+            )
+
+
+            Text(
+                modifier = Modifier.padding(top = 10.dp),
+                text = comment.text,
+                style = TextStyle(fontSize = 14.sp)
+            )
+        }
+    }
 }

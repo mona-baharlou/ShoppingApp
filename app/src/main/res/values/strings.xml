@@ -5,4 +5,5 @@
     <string name="passwords_are_not_the_same">Passwords are not the same</string>
     <string name="please_fill_required_data_first">Please fill required data first...</string>
     <string name="please_check_your_network_connectivity">Please check your network connectivity</string>
+    <string name="comments">Comments</string>
 </resources>
