@@ -1,8 +1,10 @@
 package com.bahrlou.shoppingapp.ui.features.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -40,6 +43,7 @@ import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
+import com.bahrlou.shoppingapp.util.MyScreens
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
@@ -73,9 +77,43 @@ fun ProfileScreen() {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             ProfileToolbar() { navigation.popBackStack() }
+
             MainAnimation()
-            ShowInfoSection()
+
+            Spacer(modifier = Modifier.padding(top = 6.dp))
+
+            ShowInfoSection("Email Address", viewModel.email.value, null)
+            ShowInfoSection("Login Time", viewModel.loginTime.value, null)
+            ShowInfoSection("Address", viewModel.address.value) {
+                viewModel.showDialog.value = true
+            }
+            ShowInfoSection("Postal Code Address", viewModel.postalCode.value) {
+                viewModel.showDialog.value = true
+
+            }
+
+            Button(
+                onClick = {
+                    Toast.makeText(context, "See you again !", Toast.LENGTH_SHORT).show()
+                    viewModel.signOut()
+
+                    navigation.navigate(MyScreens.MainScreen.route) {
+                        popUpTo(MyScreens.MainScreen.route) {
+                            inclusive = true
+                        }
+
+                        navigation.popBackStack()
+                        navigation.popBackStack()
+                    }
+
+                }, modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .padding(top = 36.dp)
+            ) {
+                Text(text = "Sign Out")
+            }
         }
 
     }
@@ -143,7 +181,7 @@ fun ShowInfoSection(
         )
 
         Divider(
-            color = Blue, thickness = 0.5.dp,
+            color = Blue, thickness = 0.8.dp,
             modifier = Modifier.padding(top = 16.dp)
         )
 

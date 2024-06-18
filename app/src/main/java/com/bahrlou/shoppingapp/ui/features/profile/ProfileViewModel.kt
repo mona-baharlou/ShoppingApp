@@ -8,6 +8,8 @@ class ProfileViewModel(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
+    val showDialog = mutableStateOf(false)
+
     val email = mutableStateOf("")
     val address = mutableStateOf("")
     val postalCode = mutableStateOf("")
@@ -22,4 +24,7 @@ class ProfileViewModel(
         postalCode.value = location.second
     }
 
+    fun signOut(){
+        userRepository.signOut()
+    }
 }
