@@ -6,4 +6,5 @@
     <string name="please_fill_required_data_first">Please fill required data first...</string>
     <string name="please_check_your_network_connectivity">Please check your network connectivity</string>
     <string name="comments">Comments</string>
+    <string name="please_write_your_comment">Please Write your comment..</string>
 </resources>

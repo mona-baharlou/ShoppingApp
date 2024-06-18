@@ -23,7 +23,6 @@ class ProductViewModel(
 
         viewModelScope.launch(coroutineExceptionHandler) {
             product.value = productRepository.getProductById(productId)
-
         }
     }
 

@@ -1,21 +1,25 @@
 package com.bahrlou.shoppingapp.ui.features.product
 
+import androidx.compose.ui.window.Dialog
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Badge
 import androidx.compose.material.BadgedBox
 import androidx.compose.material.Card
@@ -52,7 +56,7 @@ import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Comment
 import com.bahrlou.shoppingapp.model.data.Product
-import com.bahrlou.shoppingapp.ui.features.main.MainScreen
+import com.bahrlou.shoppingapp.ui.features.signUp.MainTextField
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
@@ -364,7 +368,6 @@ fun CommentSection(comments: List<Comment>, AddNewComment: (String) -> Unit) {
 
     if (comments.isNotEmpty()) {
 
-
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -386,6 +389,109 @@ fun CommentSection(comments: List<Comment>, AddNewComment: (String) -> Unit) {
     } else {
         AddComment(context, showCommentDialog)
     }
+
+
+    if (showCommentDialog.value) {
+        NewCommentDialog(OnDismiss = {
+            showCommentDialog.value = false
+        }, OnPositiveClicked = {
+            AddNewComment.invoke(it)
+        })
+    }
+}
+
+@Composable
+fun NewCommentDialog(
+    OnDismiss: () -> Unit,
+    OnPositiveClicked: (String) -> Unit
+) {
+
+    val context = LocalContext.current
+    val userComment = remember {
+        mutableStateOf("")
+    }
+
+    Dialog(onDismissRequest = OnDismiss) {
+        Card(
+            modifier = Modifier.fillMaxHeight(0.49f),
+            elevation = 8.dp,
+            shape = Shapes.medium
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+
+                Text(
+                    text = "Write your comment",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                //Enter data
+                MainTextField(
+                    edtValue = userComment.value,
+                    hint = "Write your comment..."
+                ) {
+                    userComment.value = it
+
+                }
+
+                //Buttons
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    TextButton(onClick = { OnDismiss.invoke() }) {
+                        Text(text = "Cancel")
+                    }
+
+                    Spacer(modifier = Modifier.width(4.dp))
+
+
+                    TextButton(onClick = {
+                        if (userComment.value.isNotEmpty() && userComment.value.isNotBlank()) {
+                            if (InternetChecker(context).isInternetConnected) {
+                                OnPositiveClicked.invoke(userComment.value)
+                                OnDismiss.invoke()
+                            } else {
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.please_check_your_network_connectivity),
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                                OnDismiss.invoke()
+
+                            }
+                        } else {
+                            Toast.makeText(context,
+                                context.getString(R.string.please_write_your_comment), Toast.LENGTH_SHORT)
+                                .show()
+                            OnDismiss.invoke()
+
+                        }
+
+                    }) {
+                        Text(text = "Ok")
+                    }
+                }
+            }
+        }
+    }
+
+
 }
 
 @Composable
