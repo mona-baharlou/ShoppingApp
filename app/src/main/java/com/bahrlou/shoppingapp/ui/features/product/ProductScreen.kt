@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.Badge
@@ -26,6 +27,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
@@ -48,6 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -56,7 +59,6 @@ import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Comment
 import com.bahrlou.shoppingapp.model.data.Product
-import com.bahrlou.shoppingapp.ui.features.signUp.MainTextField
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
@@ -444,7 +446,6 @@ fun NewCommentDialog(
                     hint = "Write your comment..."
                 ) {
                     userComment.value = it
-
                 }
 
                 //Buttons
@@ -476,8 +477,11 @@ fun NewCommentDialog(
 
                             }
                         } else {
-                            Toast.makeText(context,
-                                context.getString(R.string.please_write_your_comment), Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.please_write_your_comment),
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                             OnDismiss.invoke()
 
@@ -549,3 +553,30 @@ fun CommentBody(comment: Comment) {
         }
     }
 }
+
+
+@Composable
+fun MainTextField(
+    edtValue: String,
+    hint: String,
+    onValueChanges: (String) -> Unit
+
+) {
+    OutlinedTextField(
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        label = { Text(hint) },
+        value = edtValue,
+        singleLine = false,
+        maxLines = 2,
+        onValueChange = onValueChanges,
+        placeholder = { Text(hint) },
+        modifier = Modifier
+            .fillMaxWidth(0.85f)
+            .padding(
+                top = 12.dp
+            ),
+        shape = Shapes.medium
+    )
+}
+
+
