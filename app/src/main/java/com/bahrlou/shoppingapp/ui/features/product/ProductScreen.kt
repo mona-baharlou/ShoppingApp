@@ -138,7 +138,23 @@ fun ProductScreen(productId: String) {
         }
 
 
-        AddToCart()
+        AddToCart(
+            viewModel.product.value.price,
+            viewModel.isProductAdding.value
+        ) {
+            if (InternetChecker(context).isInternetConnected) {
+                viewModel.addProductToCart(productId) {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                }
+
+            } else {
+                Toast.makeText(
+                    context,
+                    context.getString(R.string.please_check_your_network_connectivity),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     }
 
@@ -364,12 +380,17 @@ fun ProductToolbar(
     )
 }
 
+/**************************************Add TO Cart ***************************/
 @Composable
-fun AddToCart() {
+fun AddToCart(
+    price: String,
+    isProductAdding: Boolean,
+    OnCartClicked: () -> Unit
+) {
 
 }
 
-//****************************** Comments ********************************//
+/****************************** Comments ************************************/
 
 @Composable
 fun CommentSection(comments: List<Comment>, AddNewComment: (String) -> Unit) {

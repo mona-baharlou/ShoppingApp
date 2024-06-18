@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bahrlou.shoppingapp.model.data.Comment
 import com.bahrlou.shoppingapp.model.data.Product
+import com.bahrlou.shoppingapp.model.repository.cart.CartRepository
 import com.bahrlou.shoppingapp.model.repository.comment.CommentRepository
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import com.bahrlou.shoppingapp.util.EMPTY_PRODUCT
@@ -14,11 +15,13 @@ import kotlinx.coroutines.launch
 
 class ProductViewModel(
     private val productRepository: ProductRepository,
-    private val commentRepository: CommentRepository
+    private val commentRepository: CommentRepository,
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
     val product = mutableStateOf<Product>(EMPTY_PRODUCT)
     val comments = mutableStateOf(listOf<Comment>())
+    val isProductAdding = mutableStateOf(false)
 
     private fun loadProductFromCache(productId: String) {
 
@@ -52,6 +55,22 @@ class ProductViewModel(
             delay(100)
 
             comments.value = commentRepository.getComments(productId)
+        }
+    }
+
+    fun addProductToCart(productId: String, addingToCartResult: (String) -> Unit) {
+        viewModelScope.launch(coroutineExceptionHandler) {
+            isProductAdding.value = true
+            val result = cartRepository.addToCart(productId)
+            delay(500)
+            isProductAdding.value = false
+
+            if(result){
+                addingToCartResult.invoke("Product is added to cart")
+            }
+            else{
+                addingToCartResult.invoke("Product does not added to cart!")
+            }
         }
     }
 }
