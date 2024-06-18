@@ -10,13 +10,16 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -77,6 +80,9 @@ fun ProductScreenPreview() {
             modifier = Modifier.fillMaxSize(), color = BackgroundMain
         ) {
             //ProductScreen("")
+            NewCommentDialog(OnDismiss = { /*TODO*/ }) {
+
+            }
         }
     }
 }
@@ -90,7 +96,9 @@ fun ProductScreen(productId: String) {
     viewModel.loadData(productId, InternetChecker(context).isInternetConnected)
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars),
         contentAlignment = Alignment.BottomCenter
     ) {
 
@@ -176,7 +184,7 @@ fun ProductItem(
         Divider(
             color = Color.LightGray,
             thickness = 1.dp,
-            modifier = Modifier.padding(top = 14.dp, bottom = 14.dp)
+            modifier = Modifier.padding(top = 14.dp, bottom = 4.dp)
         )
 
         ProductDetail(data, comments.size)
@@ -184,7 +192,7 @@ fun ProductItem(
         Divider(
             color = Color.LightGray,
             thickness = 1.dp,
-            modifier = Modifier.padding(top = 14.dp)
+            modifier = Modifier.padding(top = 14.dp, bottom = 4.dp)
         )
 
         CommentSection(comments, OnAddNewComment)
@@ -222,8 +230,8 @@ fun ProductDetail(data: Product, commentNumber: Int) {
             }
 
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 10.dp)
+                modifier = Modifier.padding(top = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Image(
@@ -243,8 +251,8 @@ fun ProductDetail(data: Product, commentNumber: Int) {
             }
 
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(top = 10.dp)
+                modifier = Modifier.padding(top = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
                 Image(
@@ -272,7 +280,8 @@ fun ProductDetail(data: Product, commentNumber: Int) {
             color = Blue
         ) {
             Text(
-                text = data.tags, color = Color.White,
+                text = data.tags,
+                color = Color.White,
                 modifier = Modifier.padding(6.dp),
                 style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
             )
@@ -411,13 +420,13 @@ fun CommentSection(comments: List<Comment>, AddNewComment: (String) -> Unit) {
             )
 
             AddComment(context, showCommentDialog)
-
-            comments.forEach {
-                CommentBody(comment = it)
-            }
-
-
         }
+
+        comments.forEach {
+            CommentBody(comment = it)
+        }
+
+
     } else {
         AddComment(context, showCommentDialog)
     }
@@ -445,7 +454,7 @@ fun NewCommentDialog(
 
     Dialog(onDismissRequest = OnDismiss) {
         Card(
-            modifier = Modifier.fillMaxHeight(0.5f),
+            modifier = Modifier.fillMaxHeight(0.3f),
             elevation = 8.dp,
             shape = Shapes.medium
         ) {
@@ -453,13 +462,13 @@ fun NewCommentDialog(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(10.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.Top
             ) {
 
                 Text(
-                    text = "Write your comment",
+                    text = stringResource(R.string.write_your_comment),
                     textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
@@ -494,7 +503,7 @@ fun NewCommentDialog(
                     TextButton(onClick = {
                         if (userComment.value.isNotEmpty() && userComment.value.isNotBlank()) {
                             if (InternetChecker(context).isInternetConnected) {
-                                OnPositiveClicked.invoke(userComment.value)
+                                OnPositiveClicked.invoke(userComment.value.trimStart().trimEnd())
                                 OnDismiss.invoke()
                             } else {
                                 Toast.makeText(
@@ -565,8 +574,6 @@ fun CommentBody(comment: Comment) {
         border = BorderStroke(1.dp, Color.LightGray),
         shape = Shapes.large
     ) {
-
-
         Column(modifier = Modifier.padding(12.dp)) {
 
             Text(

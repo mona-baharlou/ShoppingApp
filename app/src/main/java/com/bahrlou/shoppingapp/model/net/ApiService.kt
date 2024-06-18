@@ -35,7 +35,7 @@ interface ApiService {
     @GET("getProducts")
     suspend fun getProducts(): ProductResponse
 
-    @GET("getComments")
+    @POST("getComments")
     suspend fun getComments(@Body jsonObject: JsonObject): CommentResponse
 
     @POST("addNewComment")

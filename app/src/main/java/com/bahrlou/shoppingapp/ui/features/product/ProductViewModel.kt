@@ -19,7 +19,7 @@ class ProductViewModel(
     private val cartRepository: CartRepository
 ) : ViewModel() {
 
-    val product = mutableStateOf<Product>(EMPTY_PRODUCT)
+    val product = mutableStateOf(EMPTY_PRODUCT)
     val comments = mutableStateOf(listOf<Comment>())
     val isProductAdding = mutableStateOf(false)
 
