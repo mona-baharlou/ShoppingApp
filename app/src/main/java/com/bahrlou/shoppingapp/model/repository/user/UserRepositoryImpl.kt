@@ -27,6 +27,7 @@ class UserRepositoryImpl(
             //save in SharedPref
             saveToken(result.token)
             saveUsername(username)
+            saveUserLoginTime()
 
             return SUCCESS
         } else {
@@ -51,6 +52,7 @@ class UserRepositoryImpl(
             //save token in sharedPref
             saveToken(result.token)
             saveUsername(username)
+            saveUserLoginTime()
 
             return SUCCESS
         } else {
@@ -90,5 +92,27 @@ class UserRepositoryImpl(
     override fun getUsername(): String? {
         return sharedPref.getString("username", null)
 
+    }
+
+    override fun saveUserLocation(address: String, postalCode: String) {
+        sharedPref.edit().putString("address", address).apply()
+        sharedPref.edit().putString("postalCode", address).apply()
+    }
+
+    override fun getUserLocation(): Pair<String, String> {
+        val address = sharedPref.getString("address", "Click to add")!!
+        val postalCode = sharedPref.getString("postalCode", "Click to add")!!
+        return Pair(address, postalCode)
+
+    }
+
+    override fun saveUserLoginTime() {
+        val now = System.currentTimeMillis()
+        sharedPref.edit().putString("login_time", now.toString()).apply()
+
+    }
+
+    override fun getUserLoginTime(): String {
+        return sharedPref.getString("login_time", "0")!!
     }
 }

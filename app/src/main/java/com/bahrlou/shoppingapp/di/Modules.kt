@@ -15,6 +15,7 @@ import com.bahrlou.shoppingapp.model.repository.user.UserRepositoryImpl
 import com.bahrlou.shoppingapp.ui.features.category.CategoryViewModel
 import com.bahrlou.shoppingapp.ui.features.main.MainViewModel
 import com.bahrlou.shoppingapp.ui.features.product.ProductViewModel
+import com.bahrlou.shoppingapp.ui.features.profile.ProfileViewModel
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInViewModel
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpViewModel
 import org.koin.android.ext.koin.androidContext
@@ -52,4 +53,5 @@ val shoppingModules = module {
     viewModel { (isInternetConnected: Boolean) -> MainViewModel(get(), get(), isInternetConnected) }
     viewModel { CategoryViewModel(get()) }
     viewModel { ProductViewModel(get(), get(), get()) }
+    viewModel { ProfileViewModel(get()) }
 }

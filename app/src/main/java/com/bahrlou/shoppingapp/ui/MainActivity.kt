@@ -20,6 +20,7 @@ import com.bahrlou.shoppingapp.ui.features.IntroScreen
 import com.bahrlou.shoppingapp.ui.features.category.CategoryScreen
 import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.features.product.ProductScreen
+import com.bahrlou.shoppingapp.ui.features.profile.ProfileScreen
 import com.bahrlou.shoppingapp.ui.features.signIn.SignInScreen
 import com.bahrlou.shoppingapp.ui.features.signUp.SignUpScreen
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
@@ -130,12 +131,6 @@ fun ShoppingUi() {
 fun CartScreen() {
 //1,424,000
 //217682
-
-
-}
-
-@Composable
-fun ProfileScreen() {
 
 
 }
