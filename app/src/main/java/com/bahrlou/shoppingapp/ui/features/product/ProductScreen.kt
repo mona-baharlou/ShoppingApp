@@ -93,13 +93,10 @@ fun ProductScreenPreview() {
         Surface(
             modifier = Modifier.fillMaxSize(), color = BackgroundMain
         ) {
-            //ProductScreen("")
-            /*NewCommentDialog(OnDismiss = { *//*TODO*//* }) {
 
-            }*/
-            AddToCart(price = "10000", isProductAdding = false) {
+            /*  AddToCart(price = "10000", isProductAdding = false) {
 
-            }
+              }*/
         }
     }
 }
@@ -416,12 +413,12 @@ fun AddToCart(
     val config = LocalConfiguration.current
     val fraction =
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        0.15 else 0.08
+            0.15f else 0.24f
 
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.15f),
+            .fillMaxHeight(fraction),
         color = Color.White
     ) {
         Row(
@@ -432,7 +429,7 @@ fun AddToCart(
 
             Button(modifier = Modifier
                 .padding(start = 16.dp)
-                .size(182.dp),
+                .size(182.dp, 40.dp),
                 onClick = { OnCartClicked.invoke() }) {
 
                 if (isProductAdding) {
@@ -461,7 +458,10 @@ fun AddToCart(
                         bottom = 6.dp
                     ),
                     text = price,
-                    style = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
                 )
 
             }
