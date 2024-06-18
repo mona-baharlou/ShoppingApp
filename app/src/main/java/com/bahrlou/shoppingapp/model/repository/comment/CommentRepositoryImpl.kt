@@ -20,4 +20,26 @@ class CommentRepositoryImpl(
 
         return listOf()
     }
+
+    override suspend fun addComment(
+        productId: String,
+        comment: String,
+        IsSucceed: (String) -> Unit
+    ) {
+        val jsonObject = JsonObject().apply {
+            addProperty("productId", productId)
+            addProperty("text", comment)
+        }
+
+        val result = apiService.addComment(jsonObject)
+
+        if(result.success){
+            IsSucceed.invoke(result.message)
+        }
+        else{
+            IsSucceed.invoke("Comment not added")
+        }
+
+
+    }
 }

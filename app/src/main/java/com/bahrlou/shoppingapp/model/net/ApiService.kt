@@ -1,5 +1,6 @@
 package com.bahrlou.shoppingapp.model.net
 
+import com.bahrlou.shoppingapp.model.data.AddNewCommentResponse
 import com.bahrlou.shoppingapp.model.data.AdsResponse
 import com.bahrlou.shoppingapp.model.data.CommentResponse
 import com.bahrlou.shoppingapp.model.data.LoginResponse
@@ -35,6 +36,9 @@ interface ApiService {
 
     @GET("getComments")
     suspend fun getComments(@Body jsonObject: JsonObject): CommentResponse
+
+    @POST("addNewComment")
+    suspend fun addComment(@Body jsonObject: JsonObject): AddNewCommentResponse
 }
 
 fun createApiService(): ApiService {

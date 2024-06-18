@@ -9,6 +9,7 @@ import com.bahrlou.shoppingapp.model.repository.comment.CommentRepository
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import com.bahrlou.shoppingapp.util.EMPTY_PRODUCT
 import com.bahrlou.shoppingapp.util.coroutineExceptionHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ProductViewModel(
@@ -39,4 +40,18 @@ class ProductViewModel(
         }
     }
 
+    fun addComment(
+        productId: String,
+        comment: String,
+        IsSucceed: (String) -> Unit
+    ) {
+        viewModelScope.launch(coroutineExceptionHandler) {
+
+            commentRepository.addComment(productId, comment, IsSucceed)
+
+            delay(100)
+
+            comments.value = commentRepository.getComments(productId)
+        }
+    }
 }

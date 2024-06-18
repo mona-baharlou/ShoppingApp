@@ -125,7 +125,15 @@ fun ProductScreen(productId: String) {
                 comments = viewModel.comments.value,
                 OnCategoryClicked = {
                     navigation.navigate(MyScreens.CategoryScreen.route + "/${it}")
+                },
+                OnAddNewComment = {
+                    viewModel.addComment(productId, it) { message ->
+                        Toast.makeText(
+                            context, message, Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 })
+
 
         }
 
@@ -137,7 +145,12 @@ fun ProductScreen(productId: String) {
 }
 
 @Composable
-fun ProductItem(data: Product, comments: List<Comment>, OnCategoryClicked: (String) -> Unit) {
+fun ProductItem(
+    data: Product,
+    comments: List<Comment>,
+    OnCategoryClicked: (String) -> Unit,
+    OnAddNewComment: (String) -> Unit
+) {
 
     Column(
         modifier = Modifier.padding(16.dp)
@@ -158,11 +171,7 @@ fun ProductItem(data: Product, comments: List<Comment>, OnCategoryClicked: (Stri
             modifier = Modifier.padding(top = 14.dp)
         )
 
-
-        CommentSection(comments) {
-
-        }
-
+        CommentSection(comments, OnAddNewComment)
 
     }
 }
@@ -415,7 +424,7 @@ fun NewCommentDialog(
 
     Dialog(onDismissRequest = OnDismiss) {
         Card(
-            modifier = Modifier.fillMaxHeight(0.49f),
+            modifier = Modifier.fillMaxHeight(0.5f),
             elevation = 8.dp,
             shape = Shapes.medium
         ) {
