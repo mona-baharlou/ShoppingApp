@@ -12,6 +12,7 @@ import com.bahrlou.shoppingapp.model.repository.product.ProductRepository
 import com.bahrlou.shoppingapp.model.repository.product.ProductRepositoryImpl
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.model.repository.user.UserRepositoryImpl
+import com.bahrlou.shoppingapp.ui.features.cart.CartViewModel
 import com.bahrlou.shoppingapp.ui.features.category.CategoryViewModel
 import com.bahrlou.shoppingapp.ui.features.main.MainViewModel
 import com.bahrlou.shoppingapp.ui.features.product.ProductViewModel
@@ -54,4 +55,5 @@ val shoppingModules = module {
     viewModel { CategoryViewModel(get()) }
     viewModel { ProductViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { CartViewModel(get()) }
 }
