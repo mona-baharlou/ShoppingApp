@@ -17,6 +17,7 @@ import com.bahrlou.shoppingapp.di.shoppingModules
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.ui.features.IntroScreen
+import com.bahrlou.shoppingapp.ui.features.cart.CartScreen
 import com.bahrlou.shoppingapp.ui.features.category.CategoryScreen
 import com.bahrlou.shoppingapp.ui.features.main.MainScreen
 import com.bahrlou.shoppingapp.ui.features.product.ProductScreen
@@ -124,15 +125,6 @@ fun ShoppingUi() {
         }
 */
     }
-}
-
-
-@Composable
-fun CartScreen() {
-//1,424,000
-//217682
-
-
 }
 
 @Preview(showBackground = true)

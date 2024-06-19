@@ -6,4 +6,5 @@ import com.bahrlou.shoppingapp.model.repository.cart.CartRepository
 class CartViewModel(
     cartRepository: CartRepository
 ) : ViewModel() {
+
 }
