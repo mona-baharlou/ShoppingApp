@@ -31,7 +31,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,7 +57,7 @@ import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.TAGS
-import com.bahrlou.shoppingapp.util.stylePrice
+import com.bahrlou.shoppingapp.util.setPriceFormat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -317,7 +316,7 @@ fun ProductItem(item: Product, onProductClicked: (String) -> Unit) {
                     fontWeight = FontWeight.Medium
                 )
                 Text(
-                    text = stylePrice(item.price),
+                    text = setPriceFormat(item.price),
                     style = TextStyle(fontSize = 14.sp),
                     modifier = Modifier.padding(top = 4.dp)
                 )

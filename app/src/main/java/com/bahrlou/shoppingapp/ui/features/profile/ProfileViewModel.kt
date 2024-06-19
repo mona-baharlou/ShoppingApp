@@ -24,7 +24,11 @@ class ProfileViewModel(
         postalCode.value = location.second
     }
 
-    fun signOut(){
+    fun signOut() {
         userRepository.signOut()
+    }
+
+    fun saveUserLocation(address: String, postalCode: String) {
+        userRepository.saveUserLocation(address, postalCode)
     }
 }

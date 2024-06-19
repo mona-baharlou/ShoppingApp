@@ -57,6 +57,7 @@ import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.setTimeFormat
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
 
@@ -82,7 +83,10 @@ fun ProfileScreen() {
     viewModel.getUserInfo()
 
 
-    Box(modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars)) {
+    Box(
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars).
+        padding(bottom = 58.dp)
+    ) {
 
         Column(
             modifier = Modifier
@@ -98,11 +102,11 @@ fun ProfileScreen() {
             Spacer(modifier = Modifier.padding(top = 6.dp))
 
             ShowInfoSection("Email Address", viewModel.email.value, null)
-            ShowInfoSection("Login Time", viewModel.loginTime.value, null)
+            ShowInfoSection("Login Time", setTimeFormat(viewModel.loginTime.value.toLong()), null)
             ShowInfoSection("Address", viewModel.address.value) {
                 viewModel.showDialog.value = true
             }
-            ShowInfoSection("Postal Code Address", viewModel.postalCode.value) {
+            ShowInfoSection("Postal Code", viewModel.postalCode.value) {
                 viewModel.showDialog.value = true
 
             }
@@ -121,17 +125,28 @@ fun ProfileScreen() {
                         navigation.popBackStack()
                     }
 
-                }, modifier = Modifier
+                },
+                modifier = Modifier
                     .fillMaxWidth(0.8f)
-                    .padding(top = 36.dp)
+                    .padding(top = 16.dp)
             ) {
                 Text(text = "Sign Out")
             }
+
+
+            if (viewModel.showDialog.value) {
+                AddUserLocationDialog(
+                    showSaveLocation = false,
+                    OnDismiss = {
+                        viewModel.showDialog.value = false
+                    },
+                    OnSubmitClicked = { address, postalCode, _ ->
+                        viewModel.saveUserLocation(address, postalCode)
+                    }
+                )
+            }
         }
-
     }
-
-
 }
 
 @Composable
@@ -212,7 +227,7 @@ fun MainAnimation() {
     LottieAnimation(
         modifier = Modifier
             .size(270.dp)
-            .padding(start = 36.dp, bottom = 16.dp),
+            .padding(start = 36.dp, bottom = 10.dp),
         composition = composition,
         iterations = LottieConstants.IterateForever
     )
@@ -221,17 +236,18 @@ fun MainAnimation() {
 @Composable
 fun AddUserLocationDialog(
     showSaveLocation: Boolean,
-    onDismiss: () -> Unit,
-    onSubmitClicked: (String, String, Boolean) -> Unit
+    OnDismiss: () -> Unit,
+    OnSubmitClicked: (String, String, Boolean) -> Unit
 ) {
 
     val context = LocalContext.current
-    val checkedState = remember { mutableStateOf(true) }
     val userAddress = remember { mutableStateOf("") }
     val userPostalCode = remember { mutableStateOf("") }
+    val checkedState = remember { mutableStateOf(true) }
+
     val fraction = if (showSaveLocation) 0.695f else 0.625f
 
-    Dialog(onDismissRequest = onDismiss) {
+    Dialog(onDismissRequest = OnDismiss) {
 
         Card(
             modifier = Modifier.fillMaxHeight(fraction),
@@ -293,7 +309,7 @@ fun AddUserLocationDialog(
                     modifier = Modifier.fillMaxWidth()
                 ) {
 
-                    TextButton(onClick = onDismiss) {
+                    TextButton(onClick = OnDismiss) {
                         Text(text = "Cancel")
                     }
                     Spacer(modifier = Modifier.width(4.dp))
@@ -303,14 +319,18 @@ fun AddUserLocationDialog(
                             (userAddress.value.isNotEmpty() || userAddress.value.isNotBlank()) &&
                             (userPostalCode.value.isNotEmpty() || userPostalCode.value.isNotBlank())
                         ) {
-                            onSubmitClicked(
+                            OnSubmitClicked(
                                 userAddress.value,
                                 userPostalCode.value,
                                 checkedState.value
                             )
-                            onDismiss.invoke()
+                            OnDismiss.invoke()
                         } else {
-                            Toast.makeText(context, "please write first...", Toast.LENGTH_SHORT)
+                            Toast.makeText(
+                                context,
+                                "please fill all the required information...",
+                                Toast.LENGTH_SHORT
+                            )
                                 .show()
                         }
 

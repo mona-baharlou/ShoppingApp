@@ -96,7 +96,7 @@ class UserRepositoryImpl(
 
     override fun saveUserLocation(address: String, postalCode: String) {
         sharedPref.edit().putString("address", address).apply()
-        sharedPref.edit().putString("postalCode", address).apply()
+        sharedPref.edit().putString("postalCode", postalCode).apply()
     }
 
     override fun getUserLocation(): Pair<String, String> {
