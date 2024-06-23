@@ -3,9 +3,11 @@ package com.bahrlou.shoppingapp.model.net
 import com.bahrlou.shoppingapp.model.data.AddNewCommentResponse
 import com.bahrlou.shoppingapp.model.data.AdsResponse
 import com.bahrlou.shoppingapp.model.data.CartResponse
+import com.bahrlou.shoppingapp.model.data.CheckOut
 import com.bahrlou.shoppingapp.model.data.CommentResponse
 import com.bahrlou.shoppingapp.model.data.LoginResponse
 import com.bahrlou.shoppingapp.model.data.ProductResponse
+import com.bahrlou.shoppingapp.model.data.SubmitOrder
 import com.bahrlou.shoppingapp.model.data.UserCartInfo
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
 import com.bahrlou.shoppingapp.util.BASE_URL
@@ -50,6 +52,12 @@ interface ApiService {
 
     @POST("removeFromCart")
     suspend fun removeProductFromCart(@Body jsonObject: JsonObject): CartResponse
+
+    @POST("submitOrder")
+    suspend fun submitOrder(@Body jsonObject: JsonObject): SubmitOrder
+
+    @POST("checkout")
+    suspend fun checkout(@Body jsonObject: JsonObject): CheckOut
 
 
 }
