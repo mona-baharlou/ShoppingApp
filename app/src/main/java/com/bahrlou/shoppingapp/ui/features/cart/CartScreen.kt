@@ -440,7 +440,7 @@ fun Purchase(
 
     val config = LocalConfiguration.current
     val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        0.15f else 0.07f
+        0.15f else 0.24f
 
 
     Surface(

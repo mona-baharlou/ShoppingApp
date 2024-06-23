@@ -56,6 +56,7 @@ import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.PAYMENT_PENDING
 import com.bahrlou.shoppingapp.util.TAGS
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -89,6 +90,13 @@ fun MainScreen() {
 
     if (InternetChecker(context).isInternetConnected)
         viewModel.getBadgeNumber()
+
+
+    if (viewModel.getPaymentState() == PAYMENT_PENDING) {
+        if (InternetChecker(context).isInternetConnected) {
+            viewModel.getCheckoutInfo()
+        }
+    }
 
     Box {
         Column(
