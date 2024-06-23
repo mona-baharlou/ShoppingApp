@@ -184,7 +184,6 @@ fun GoForPayment(
     context: Context
 ) {
 
-
     viewModel.purchase(userLocation.first, userLocation.second) { success, link ->
 
         if (success) {
