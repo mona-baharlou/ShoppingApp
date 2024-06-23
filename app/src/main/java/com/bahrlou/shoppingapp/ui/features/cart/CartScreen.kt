@@ -1,5 +1,6 @@
 package com.bahrlou.shoppingapp.ui.features.cart
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -35,8 +38,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -58,7 +61,6 @@ import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
-import org.w3c.dom.Text
 
 @Composable
 fun CartScreen() {
@@ -344,3 +346,72 @@ fun RemoveButton(
         }
     }
 }
+
+/************************** PURChASE ***************************/
+@Composable
+fun Purchase(
+    totalPrice: String,
+    OnPurchaseClicked: () -> Unit
+) {
+
+    val config = LocalConfiguration.current
+    val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        0.15f else 0.07f
+
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .fillMaxHeight(fraction), color = Color.White
+    )
+    {
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Button(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .size(182.dp, 40.dp),
+                onClick = { OnPurchaseClicked.invoke() }) {
+
+                Text(
+                    text = "Let's purchase",
+                    modifier = Modifier.padding(2.dp),
+                    color = Color.White,
+                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                )
+
+            }
+
+            Surface(
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .clip(Shapes.large),
+                color = PriceBackground
+            ) {
+
+                Text(
+                    text = setPriceFormat(totalPrice),
+                    modifier = Modifier.padding(
+                        top = 6.dp,
+                        bottom = 6.dp,
+                        start = 8.dp,
+                        end = 8.dp
+                    ),
+                    style = TextStyle(
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+            }
+        }
+    }
+
+}
+
+
+
