@@ -1,6 +1,9 @@
 package com.bahrlou.shoppingapp.ui.features.cart
 
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -55,12 +58,14 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Product
+import com.bahrlou.shoppingapp.ui.features.profile.AddUserLocationDialog
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.PriceBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
 import com.bahrlou.shoppingapp.util.CLICK_TO_ADD
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.PAYMENT_PENDING
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -121,15 +126,12 @@ fun CartScreen() {
 
                 val userLocation = viewModel.getUserLocation()
 
-                if (userLocation.first == CLICK_TO_ADD || userLocation.second == CLICK_TO_ADD){
+                if (userLocation.first == CLICK_TO_ADD || userLocation.second == CLICK_TO_ADD) {
                     dialogState.value = true
-                }
-                else{
+                } else {
 
                     //go for payment
-                    viewModel.purchase(userLocation.first, userLocation.second){
-
-                    }
+                    GoForPayment(viewModel, userLocation, context)
                 }
 
 
@@ -143,9 +145,62 @@ fun CartScreen() {
 
         }
 
+        if (dialogState.value) {
+            AddUserLocationDialog(showSaveLocation = true,
+                OnDismiss = {
+                    dialogState.value = false
+                },
+                OnSubmitClicked = { address, postalCode, isChecked ->
+
+                    if (InternetChecker(context).isInternetConnected) {
+
+                        if (isChecked) {
+                            viewModel.saveUserLocation(address, postalCode)
+                        }
+                        val userLocation = viewModel.getUserLocation()
+
+                        GoForPayment(viewModel, userLocation, context)
+
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.please_check_your_network_connectivity),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                })
+        }
+
     }
 
 
+}
+
+
+fun GoForPayment(
+    viewModel: CartViewModel,
+    userLocation: Pair<String, String>,
+    context: Context
+) {
+
+
+    viewModel.purchase(userLocation.first, userLocation.second) { success, link ->
+
+        if (success) {
+            Toast.makeText(context, "Pay using ZarrinPal", Toast.LENGTH_SHORT)
+                .show()
+
+            viewModel.setPaymentState(PAYMENT_PENDING)
+
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link))
+            context.startActivity(intent)
+
+
+        } else {
+            Toast.makeText(context, "Problem in payment", Toast.LENGTH_SHORT).show()
+        }
+    }
 }
 
 @Composable

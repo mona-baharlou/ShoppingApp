@@ -80,19 +80,19 @@ class CartRepositoryImpl(
         return result
     }
 
-    override suspend fun setOrderId(orderId: String) {
+    override fun setOrderId(orderId: String) {
         sharedPref.edit().putString("orderId", orderId)
     }
 
-    override suspend fun getOrderId(): String {
+    override fun getOrderId(): String {
         return sharedPref.getString("orderId", "0")!!
     }
 
-    override suspend fun setPurchaseState(status: Int) {
+    override fun setPaymentState(status: Int) {
         sharedPref.edit().putInt("purchase_state", status)
     }
 
-    override suspend fun getPurchaseState(): Int {
+    override fun getPaymentState(): Int {
         return sharedPref.getInt("purchase_state", NO_PAYMENT)
     }
 

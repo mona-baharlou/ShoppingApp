@@ -80,10 +80,15 @@ class CartViewModel(
         userRepository.saveUserLocation(address, postalCode)
     }
 
-    fun purchase(address: String, postalCode: String, IsSucceed: () -> Unit) {
+    fun purchase(address: String, postalCode: String, IsSucceed: (Boolean, String) -> Unit) {
         viewModelScope.launch(coroutineExceptionHandler) {
-            //cartRepository.
+            val result = cartRepository.submitOrder(address, postalCode)
+            IsSucceed.invoke(result.success, result.paymentLink)
         }
+    }
+
+    fun setPaymentState(state:Int){
+        cartRepository.setPaymentState(state)
     }
 
 

@@ -38,7 +38,7 @@ val shoppingModules = module {
     //Repositories
     single<UserRepository> { UserRepositoryImpl(get(), get()) }
     single<CommentRepository> { CommentRepositoryImpl(get()) }
-    single<CartRepository> { CartRepositoryImpl(get()) }
+    single<CartRepository> { CartRepositoryImpl(get(), get()) }
 
     single<ProductRepository> {
         ProductRepositoryImpl(
@@ -55,5 +55,5 @@ val shoppingModules = module {
     viewModel { CategoryViewModel(get()) }
     viewModel { ProductViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get()) }
-    viewModel { CartViewModel(get()) }
+    viewModel { CartViewModel(get(), get()) }
 }

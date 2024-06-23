@@ -13,16 +13,15 @@ interface CartRepository {
     suspend fun getCartInfo(): UserCartInfo
 
 
-
     suspend fun submitOrder(address: String, postalCode: String): SubmitOrder
     suspend fun checkout(orderId: String): CheckOut
 
 
-    suspend fun setOrderId(orderId: String)
-    suspend fun getOrderId():String
+    fun setOrderId(orderId: String)
+    fun getOrderId(): String
 
 
-    suspend fun setPurchaseState(status: Int)
-    suspend fun getPurchaseState():Int
+    fun setPaymentState(status: Int)
+    fun getPaymentState(): Int
 
 }
