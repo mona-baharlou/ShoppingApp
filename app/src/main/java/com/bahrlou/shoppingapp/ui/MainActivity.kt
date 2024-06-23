@@ -68,7 +68,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun ShoppingUi() {
 
-
     val navController = rememberNavController()
 
     KoinNavHost(
@@ -120,10 +119,6 @@ fun ShoppingUi() {
             SignInScreen()
         }
 
-       /* composable(MyScreens.IntroScreen.route) {
-            IntroScreen()
-        }
-*/
     }
 }
 

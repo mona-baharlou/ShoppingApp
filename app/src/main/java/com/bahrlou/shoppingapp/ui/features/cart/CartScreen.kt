@@ -7,11 +7,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -65,10 +68,11 @@ fun CartScreen() {
     val navigation = getNavController()
     val viewModel = getViewModel<CartViewModel>()
 
-    viewModel.getCartInfo()
 
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars),
         contentAlignment = Alignment.BottomCenter,
     ) {
 
@@ -82,11 +86,11 @@ fun CartScreen() {
             CartToolbar(OnBackClicked = {
                 navigation.popBackStack()
             }, OnProfileClicked = {
-                navigation.navigate(MyScreens.ProductScreen.route)
+                navigation.navigate(MyScreens.ProfileScreen.route)
             })
 
 
-            if (viewModel.cartList.value.isEmpty()) {
+            if (viewModel.cartList.value.isNotEmpty()) {
                 CartList(
                     data = viewModel.cartList.value,
                     isNumberChanging = viewModel.isNumberChanging.value,
@@ -102,7 +106,7 @@ fun CartScreen() {
                     }
                 )
             } else {
-
+                NoDataAnimation()
             }
 
 
@@ -252,7 +256,7 @@ fun CartItem(
                             modifier = Modifier.padding(
                                 top = 6.dp, bottom = 6.dp, start = 8.dp, end = 8.dp
                             ),
-                            text = "$${setPriceFormat((data.price.toInt() * (data.quantity ?: "1").toInt()).toString())}",
+                            text = "${setPriceFormat((data.price.toInt() * (data.quantity ?: "1").toInt()).toString())}",
                             style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
                         )
 
