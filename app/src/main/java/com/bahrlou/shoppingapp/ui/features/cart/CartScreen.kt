@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -20,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -56,15 +58,17 @@ fun CartScreen() {
 }
 
 @Composable
-fun CartToolbar(OnBackClicked: () -> Unit) {
-    TopAppBar(
-        navigationIcon = {
-            IconButton(onClick = { OnBackClicked.invoke() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBackIosNew, contentDescription = null
-                )
-            }
-        }, elevation = 2.dp,
+fun CartToolbar(
+    OnBackClicked: () -> Unit, OnProfileClicked: () -> Unit
+) {
+    TopAppBar(navigationIcon = {
+        IconButton(onClick = { OnBackClicked.invoke() }) {
+            Icon(
+                imageVector = Icons.Default.ArrowBackIosNew, contentDescription = null
+            )
+        }
+    },
+        elevation = 2.dp,
         backgroundColor = Color.White,
         modifier = Modifier.fillMaxWidth(),
         title = {
@@ -75,8 +79,17 @@ fun CartToolbar(OnBackClicked: () -> Unit) {
                     .fillMaxWidth()
                     .padding(end = 58.dp)
             )
-        }
-    )
+        },
+        actions = {
+
+            IconButton(
+                modifier = Modifier.padding(end = 6.dp),
+                onClick = { OnProfileClicked.invoke() }) {
+                Icon(Icons.Default.Person, contentDescription = null)
+
+            }
+        })
+}
 
 @Composable
 fun CartList(
@@ -87,8 +100,7 @@ fun CartList(
     OnItemClicked: (String) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(bottom = 16.dp)
+        modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(bottom = 16.dp)
     ) {
         items(data.size) {
             CartItem(
@@ -132,8 +144,7 @@ fun CartItem(
             )
 
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column(modifier = Modifier.padding(10.dp)) {
 
@@ -170,10 +181,7 @@ fun CartItem(
 
                         Text(
                             modifier = Modifier.padding(
-                                top = 6.dp,
-                                bottom = 6.dp,
-                                start = 8.dp,
-                                end = 8.dp
+                                top = 6.dp, bottom = 6.dp, start = 8.dp, end = 8.dp
                             ),
                             text = "$${setPriceFormat((data.price.toInt() * (data.quantity ?: "1").toInt()).toString())}",
                             style = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.Medium)
@@ -221,9 +229,8 @@ fun CartItem(
 }
 
 @Composable
-private fun ProductCount(
-    isNumberChanging: Pair<String, Boolean>,
-    data: Product
+fun ProductCount(
+    isNumberChanging: Pair<String, Boolean>, data: Product
 ) {
     if (isNumberChanging.first == data.productId && isNumberChanging.second) {
 
@@ -243,9 +250,8 @@ private fun ProductCount(
 }
 
 @Composable
-private fun RemoveButton(
-    data: Product,
-    OnRemoveClicked: (String) -> Unit
+fun RemoveButton(
+    data: Product, OnRemoveClicked: (String) -> Unit
 ) {
     if (data.quantity?.toInt() == 1) {
         IconButton(onClick = { OnRemoveClicked.invoke(data.productId) }) {
