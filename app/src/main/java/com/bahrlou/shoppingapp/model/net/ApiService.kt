@@ -48,6 +48,10 @@ interface ApiService {
     @GET("getUserCart")
     suspend fun getUserCart(): UserCartInfo
 
+    @POST("removeFromCart")
+    suspend fun removeProductFromCart(@Body jsonObject: JsonObject): CartResponse
+
+
 }
 
 fun createApiService(): ApiService {

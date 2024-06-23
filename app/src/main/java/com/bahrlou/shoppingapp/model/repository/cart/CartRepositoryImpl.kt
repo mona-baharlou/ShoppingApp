@@ -1,5 +1,6 @@
 package com.bahrlou.shoppingapp.model.repository.cart
 
+import com.bahrlou.shoppingapp.model.data.UserCartInfo
 import com.bahrlou.shoppingapp.model.net.ApiService
 import com.google.gson.JsonObject
 
@@ -36,5 +37,21 @@ class CartRepositoryImpl(
         return 0
     }
 
+    override suspend fun removeFromCart(productId: String): Boolean {
+        val jsonObject = JsonObject().apply {
+            addProperty("productId", productId)
+        }
+
+        val result = apiService.removeProductFromCart(jsonObject)
+
+        return result.success
+
+    }
+
+    override suspend fun getCartInfo(): UserCartInfo {
+
+        return apiService.getUserCart()
+
+    }
 
 }

@@ -3,6 +3,7 @@ package com.bahrlou.shoppingapp.ui.features.cart
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
@@ -23,6 +25,9 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,11 +42,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.PriceBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
+import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import dev.burnoo.cokoin.navigation.getNavController
 import dev.burnoo.cokoin.viewmodel.getViewModel
@@ -51,9 +61,68 @@ import org.w3c.dom.Text
 fun CartScreen() {
 
     val context = LocalContext.current
+    val dialogState = remember { mutableStateOf(false) }
     val navigation = getNavController()
     val viewModel = getViewModel<CartViewModel>()
 
+    viewModel.getCartInfo()
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 75.dp)
+        ) {
+
+            CartToolbar(OnBackClicked = {
+                navigation.popBackStack()
+            }, OnProfileClicked = {
+                navigation.navigate(MyScreens.ProductScreen.route)
+            })
+
+
+            if (viewModel.cartList.value.isEmpty()) {
+                CartList(
+                    data = viewModel.cartList.value,
+                    isNumberChanging = viewModel.isNumberChanging.value,
+                    OnAddClicked = {
+                        viewModel.addCartItem(productId = it)
+                    },
+                    OnRemoveClicked = {
+                        viewModel.removeFromCart(productId = it)
+
+                    },
+                    OnItemClicked = {
+                        navigation.navigate(MyScreens.ProductScreen.route + "/${it}")
+                    }
+                )
+            } else {
+
+            }
+
+
+        }
+
+    }
+
+
+}
+
+@Composable
+fun NoDataAnimation() {
+    val composition by rememberLottieComposition(
+        LottieCompositionSpec.RawRes(R.raw.no_data)
+    )
+
+    LottieAnimation(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
 
 }
 
