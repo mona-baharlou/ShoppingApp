@@ -58,6 +58,7 @@ import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.PriceBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
+import com.bahrlou.shoppingapp.util.CLICK_TO_ADD
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.setPriceFormat
@@ -119,10 +120,18 @@ fun CartScreen() {
             if (viewModel.cartList.value.isNotEmpty()) {
 
                 val userLocation = viewModel.getUserLocation()
-                //user have location in his profile
 
+                if (userLocation.first == CLICK_TO_ADD || userLocation.second == CLICK_TO_ADD){
+                    dialogState.value = true
+                }
+                else{
 
-                //else show location dialog
+                    //go for payment
+                    viewModel.purchase(userLocation.first, userLocation.second){
+
+                    }
+                }
+
 
             } else {
                 Toast.makeText(

@@ -9,6 +9,8 @@ const val KEY_CATEGORY_ARG = "categoryName"
 const val BASE_URL = "https://dunijet.ir/Projects/DuniBazaar/"
 const val SUCCESS = "success"
 
+const val CLICK_TO_ADD = "Click to add"
+
 val CATEGORY = listOf(
     Pair("Backpack", R.drawable.ic_cat_backpack),
     Pair("Handbag", R.drawable.ic_cat_handbag),

@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.model.repository.cart.CartRepository
+import com.bahrlou.shoppingapp.model.repository.user.UserRepository
 import com.bahrlou.shoppingapp.util.coroutineExceptionHandler
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class CartViewModel(
-    private val cartRepository: CartRepository
+    private val cartRepository: CartRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val isNumberChanging = mutableStateOf(Pair("", false))
@@ -69,16 +71,16 @@ class CartViewModel(
     }
 
 
-    fun getUserLocation: Pair<String, String> {
-
+    fun getUserLocation(): Pair<String, String> {
+        return userRepository.getUserLocation()
     }
 
 
-    fun setUserLocation(address: String, postalCode: String){
-
+    fun saveUserLocation(address: String, postalCode: String) {
+        userRepository.saveUserLocation(address, postalCode)
     }
 
-    fun purchase() {
+    fun purchase(address: String, postalCode: String, IsSucceed: () -> Unit) {
         viewModelScope.launch(coroutineExceptionHandler) {
             //cartRepository.
         }

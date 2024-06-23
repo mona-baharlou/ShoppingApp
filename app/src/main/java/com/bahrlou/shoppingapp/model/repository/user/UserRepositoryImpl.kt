@@ -3,6 +3,7 @@ package com.bahrlou.shoppingapp.model.repository.user
 import android.content.SharedPreferences
 import com.bahrlou.shoppingapp.model.net.ApiService
 import com.bahrlou.shoppingapp.model.repository.TokenInMemory
+import com.bahrlou.shoppingapp.util.CLICK_TO_ADD
 import com.bahrlou.shoppingapp.util.SUCCESS
 import com.google.gson.JsonObject
 
@@ -100,8 +101,8 @@ class UserRepositoryImpl(
     }
 
     override fun getUserLocation(): Pair<String, String> {
-        val address = sharedPref.getString("address", "Click to add")!!
-        val postalCode = sharedPref.getString("postalCode", "Click to add")!!
+        val address = sharedPref.getString("address", CLICK_TO_ADD)!!
+        val postalCode = sharedPref.getString("postalCode", CLICK_TO_ADD)!!
         return Pair(address, postalCode)
 
     }
