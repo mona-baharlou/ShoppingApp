@@ -1,6 +1,7 @@
 package com.bahrlou.shoppingapp.ui.features.cart
 
 import android.content.res.Configuration
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +58,7 @@ import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.Blue
 import com.bahrlou.shoppingapp.ui.theme.PriceBackground
 import com.bahrlou.shoppingapp.ui.theme.Shapes
+import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import dev.burnoo.cokoin.navigation.getNavController
@@ -110,7 +112,25 @@ fun CartScreen() {
             } else {
                 NoDataAnimation()
             }
+        }
 
+        Purchase(totalPrice = viewModel.totalPrice.value.toString()) {
+
+            if (viewModel.cartList.value.isNotEmpty()) {
+
+                val userLocation = viewModel.getUserLocation()
+                //user have location in his profile
+
+
+                //else show location dialog
+
+            } else {
+                Toast.makeText(
+                    context,
+                    "Please add some products to cart first",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
 
         }
 
@@ -353,6 +373,7 @@ fun Purchase(
     totalPrice: String,
     OnPurchaseClicked: () -> Unit
 ) {
+    val context = LocalContext.current
 
     val config = LocalConfiguration.current
     val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
@@ -376,7 +397,18 @@ fun Purchase(
                 modifier = Modifier
                     .padding(start = 16.dp)
                     .size(182.dp, 40.dp),
-                onClick = { OnPurchaseClicked.invoke() }) {
+                onClick = {
+                    if (InternetChecker(context = context).isInternetConnected) {
+                        OnPurchaseClicked.invoke()
+                    } else {
+                        Toast.makeText(
+                            context,
+                            context.getString(R.string.please_check_your_network_connectivity),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                }) {
 
                 Text(
                     text = "Let's purchase",

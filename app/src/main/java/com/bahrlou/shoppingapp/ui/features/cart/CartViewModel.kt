@@ -68,4 +68,21 @@ class CartViewModel(
         }
     }
 
+
+    fun getUserLocation: Pair<String, String> {
+
+    }
+
+
+    fun setUserLocation(address: String, postalCode: String){
+
+    }
+
+    fun purchase() {
+        viewModelScope.launch(coroutineExceptionHandler) {
+            //cartRepository.
+        }
+    }
+
+
 }
