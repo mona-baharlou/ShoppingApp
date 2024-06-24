@@ -113,7 +113,7 @@ fun ProfileScreen() {
 
             Button(
                 onClick = {
-                    Toast.makeText(context, "See you again !", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "See you again!", Toast.LENGTH_SHORT).show()
                     viewModel.signOut()
 
                     navigation.navigate(MyScreens.MainScreen.route) {
@@ -128,7 +128,9 @@ fun ProfileScreen() {
                 },
                 modifier = Modifier
                     .fillMaxWidth(0.8f)
-                    .padding(top = 16.dp)
+                    .padding(top = 46.dp),
+
+
             ) {
                 Text(text = "Sign Out")
             }

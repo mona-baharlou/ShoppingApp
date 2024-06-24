@@ -15,9 +15,13 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,7 +65,7 @@ fun CategoryScreen(categoryName: String) {
 
         ) {
 
-        CategoryToolbar(categoryName)
+        CategoryToolbar(categoryName) { navigation.popBackStack() }
 
         val productList = viewModel.productData
         Products(productList.value) {
@@ -91,6 +95,7 @@ fun ProductItem(data: Product, onProductClicked: (String) -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+            //.clip(Shapes.small)
             .clickable { onProductClicked.invoke(data.productId) },
         elevation = 4.dp,
         shape = Shapes.large
@@ -154,7 +159,7 @@ fun ProductItem(data: Product, onProductClicked: (String) -> Unit) {
     }
 }
 
-@Composable
+/*@Composable
 fun CategoryToolbar(categoryName: String) {
     TopAppBar(
         elevation = 0.dp,
@@ -168,4 +173,31 @@ fun CategoryToolbar(categoryName: String) {
             )
         }
     )
+}*/
+
+@Composable
+fun CategoryToolbar(categoryName: String, OnBackClicked: () -> Unit) {
+    TopAppBar(
+        navigationIcon = {
+            IconButton(onClick = { OnBackClicked.invoke() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBackIosNew, contentDescription = null
+                )
+            }
+        }, elevation = 2.dp,
+        backgroundColor = Color.White,
+        modifier = Modifier.fillMaxWidth(),
+        title = {
+            Text(
+                text = categoryName,
+                textAlign = TextAlign.Center,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(end = 58.dp)
+            )
+        }
+    )
+
+
 }
+
