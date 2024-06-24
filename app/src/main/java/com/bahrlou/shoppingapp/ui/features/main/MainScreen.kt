@@ -63,6 +63,7 @@ import com.bahrlou.shoppingapp.ui.theme.ShoppingAppTheme
 import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
+import com.bahrlou.shoppingapp.util.NO_PAYMENT
 import com.bahrlou.shoppingapp.util.PAYMENT_PENDING
 import com.bahrlou.shoppingapp.util.PAYMENT_SUCCESS
 import com.bahrlou.shoppingapp.util.TAGS
@@ -150,7 +151,13 @@ fun MainScreen() {
         }
 
         if (viewModel.showPaymentResultdialog.value) {
-
+            PaymentResultDialog(
+                checkoutResult = viewModel.checkoutData.value,
+                onDismiss = {
+                    viewModel.showPaymentResultdialog.value = false
+                    viewModel.setPaymentState(NO_PAYMENTk)
+                }
+            )
         }
     }
 }
