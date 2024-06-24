@@ -155,7 +155,7 @@ fun MainScreen() {
                 checkoutResult = viewModel.checkoutData.value,
                 onDismiss = {
                     viewModel.showPaymentResultdialog.value = false
-                    viewModel.setPaymentState(NO_PAYMENTk)
+                    viewModel.setPaymentState(NO_PAYMENT)
                 }
             )
         }
