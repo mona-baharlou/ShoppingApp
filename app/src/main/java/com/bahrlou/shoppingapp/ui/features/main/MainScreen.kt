@@ -3,9 +3,12 @@ package com.bahrlou.shoppingapp.ui.features.main
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +29,7 @@ import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -41,12 +45,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.bahrlou.shoppingapp.R
 import com.bahrlou.shoppingapp.model.data.Ads
+import com.bahrlou.shoppingapp.model.data.CheckOut
 import com.bahrlou.shoppingapp.model.data.Product
 import com.bahrlou.shoppingapp.ui.theme.BackgroundMain
 import com.bahrlou.shoppingapp.ui.theme.Blue
@@ -57,6 +64,7 @@ import com.bahrlou.shoppingapp.util.CATEGORY
 import com.bahrlou.shoppingapp.util.InternetChecker
 import com.bahrlou.shoppingapp.util.MyScreens
 import com.bahrlou.shoppingapp.util.PAYMENT_PENDING
+import com.bahrlou.shoppingapp.util.PAYMENT_SUCCESS
 import com.bahrlou.shoppingapp.util.TAGS
 import com.bahrlou.shoppingapp.util.setPriceFormat
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -140,8 +148,111 @@ fun MainScreen() {
             }
 
         }
+
+        if (viewModel.showPaymentResultdialog.value) {
+
+        }
     }
 }
+
+/**************************** PaymentResultDialog **********************************/
+@Composable
+private fun PaymentResultDialog(
+    checkoutResult: CheckOut,
+    onDismiss: () -> Unit
+) {
+
+    Dialog(onDismissRequest = onDismiss) {
+
+        Card(
+            elevation = 8.dp,
+            shape = Shapes.medium
+        ) {
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+
+                Text(
+                    text = "Payment Result",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                // Main Data
+                if (checkoutResult.order?.status?.toInt() == PAYMENT_SUCCESS) {
+
+                    AsyncImage(
+                        model = R.drawable.success_anim,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.size(110.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    Text(text = "Payment was successful!", style = TextStyle(fontSize = 16.sp))
+                    Text(
+                        text = "Purchase Amount: " + setPriceFormat(
+                            (checkoutResult.order!!.amount).substring(
+                                0,
+                                (checkoutResult.order!!.amount).length - 1
+                            )
+                        )
+                    )
+
+                } else {
+
+                    AsyncImage(
+                        model = R.drawable.fail_anim,
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(110.dp)
+                            .padding(top = 6.dp, bottom = 6.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(6.dp))
+
+                    Text(text = "Payment was not successful!", style = TextStyle(fontSize = 16.sp))
+                    Text(
+                        text = "Purchase Amount: " + setPriceFormat(
+                            (checkoutResult.order!!.amount).substring(
+                                0,
+                                (checkoutResult.order.amount).length - 1
+                            )
+                        )
+                    )
+
+                }
+
+                // Ok Button
+                Row(
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+
+                    TextButton(onClick = onDismiss) {
+                        Text(text = "ok")
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                }
+            }
+        }
+    }
+}
+
+/**************************************************************************/
+
 
 @Composable
 fun SetProductSectionData(
