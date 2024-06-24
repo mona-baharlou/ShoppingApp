@@ -1,16 +1,17 @@
 
-# Android Bag Shopping App
+# Bag Shopping App
 
 ![](/app/src/main/res/drawable/bag.gif)
 
 
 ## Features
 
- - Shows list of products 
+ - Shows list of products & categories
  - Register & Login pages are implemented 
- - user can add products to cart
- - commenting is enabled for users
- - user can save his information in his Profile
+ - User can add products to cart
+ - Payment process is implemented 
+ - Commenting is enabled for users
+ - User can save his information in his Profile
 
 
 ## Technologies Used
