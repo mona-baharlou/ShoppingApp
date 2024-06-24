@@ -46,6 +46,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -127,10 +128,10 @@ fun CartScreen() {
                 val userLocation = viewModel.getUserLocation()
 
                 if (userLocation.first == CLICK_TO_ADD
-                    || userLocation.second == CLICK_TO_ADD) {
+                    || userLocation.second == CLICK_TO_ADD
+                ) {
                     dialogState.value = true
                 } else {
-
                     //go for payment
                     GoForPayment(viewModel, userLocation, context)
                 }
@@ -139,7 +140,7 @@ fun CartScreen() {
             } else {
                 Toast.makeText(
                     context,
-                    "Please add some products to cart first",
+                    context.getString(R.string.please_add_some_products_to_cart_first),
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -439,74 +440,83 @@ fun Purchase(
 ) {
     val context = LocalContext.current
 
-    val config = LocalConfiguration.current
-    val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-        0.15f else 0.24f
+    if (totalPrice.toInt() > 0) {
+
+        val config = LocalConfiguration.current
+        val fraction = if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
+            0.15f else 0.24f
 
 
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(fraction), color = Color.White
-    )
-    {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(fraction), color = Color.White
+        )
+        {
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-
-            Button(
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .size(182.dp, 40.dp),
-                onClick = {
-                    if (InternetChecker(context).isInternetConnected) {
-                        OnPurchaseClicked.invoke()
-                    } else {
-                        Toast.makeText(
-                            context,
-                            context.getString(R.string.please_check_your_network_connectivity),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-
-                }) {
-
-                Text(
-                    text = "Let's purchase",
-                    modifier = Modifier.padding(2.dp),
-                    color = Color.White,
-                    style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                )
-
-            }
-
-            Surface(
-                modifier = Modifier
-                    .padding(end = 16.dp)
-                    .clip(Shapes.large),
-                color = PriceBackground
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
 
-                Text(
-                    text = setPriceFormat(totalPrice),
-                    modifier = Modifier.padding(
-                        top = 6.dp,
-                        bottom = 6.dp,
-                        start = 8.dp,
-                        end = 8.dp
-                    ),
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Medium
+                Button(
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .size(182.dp, 40.dp),
+                    onClick = {
+                        if (InternetChecker(context).isInternetConnected) {
+                            OnPurchaseClicked.invoke()
+                        } else {
+                            Toast.makeText(
+                                context,
+                                context.getString(R.string.please_check_your_network_connectivity),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    }) {
+
+                    Text(
+                        text = "Let's purchase",
+                        modifier = Modifier.padding(2.dp),
+                        color = Color.White,
+                        style = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.Medium)
                     )
-                )
+
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                        .clip(Shapes.large),
+                    color = PriceBackground
+                ) {
+
+                    Text(
+                        text = setPriceFormat(totalPrice),
+                        modifier = Modifier.padding(
+                            top = 6.dp,
+                            bottom = 6.dp,
+                            start = 8.dp,
+                            end = 8.dp
+                        ),
+                        style = TextStyle(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                    )
+                }
             }
         }
-    }
 
+    } else {
+        Toast.makeText(
+            context,
+            stringResource(R.string.please_add_some_products_to_cart_first),
+            Toast.LENGTH_SHORT
+        ).show()
+    }
 }
 
 

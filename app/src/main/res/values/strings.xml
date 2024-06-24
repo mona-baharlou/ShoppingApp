@@ -9,4 +9,5 @@
     <string name="please_write_your_comment">Please Write your comment..</string>
     <string name="write_your_comment">Write your comment</string>
     <string name="needs_internet_for_showing_comments">Needs Internet for showing comments</string>
+    <string name="please_add_some_products_to_cart_first">Please add some products to cart first</string>
 </resources>
