@@ -100,8 +100,9 @@ fun MainScreen() {
     if (InternetChecker(context).isInternetConnected)
         viewModel.getBadgeNumber()
 
+    val state = viewModel.getPaymentState()
 
-    if (viewModel.getPaymentState() == PAYMENT_PENDING) {
+    if (state == PAYMENT_PENDING ) {
         if (InternetChecker(context).isInternetConnected) {
             viewModel.getCheckoutInfo()
         }

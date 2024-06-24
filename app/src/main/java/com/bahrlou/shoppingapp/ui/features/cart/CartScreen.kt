@@ -126,7 +126,8 @@ fun CartScreen() {
 
                 val userLocation = viewModel.getUserLocation()
 
-                if (userLocation.first == CLICK_TO_ADD || userLocation.second == CLICK_TO_ADD) {
+                if (userLocation.first == CLICK_TO_ADD
+                    || userLocation.second == CLICK_TO_ADD) {
                     dialogState.value = true
                 } else {
 
@@ -461,7 +462,7 @@ fun Purchase(
                     .padding(start = 16.dp)
                     .size(182.dp, 40.dp),
                 onClick = {
-                    if (InternetChecker(context = context).isInternetConnected) {
+                    if (InternetChecker(context).isInternetConnected) {
                         OnPurchaseClicked.invoke()
                     } else {
                         Toast.makeText(

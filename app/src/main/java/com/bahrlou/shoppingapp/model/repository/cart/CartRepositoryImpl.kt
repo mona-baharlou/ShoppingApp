@@ -81,7 +81,7 @@ class CartRepositoryImpl(
     }
 
     override fun setOrderId(orderId: String) {
-        sharedPref.edit().putString("orderId", orderId)
+        sharedPref.edit().putString("orderId", orderId).apply()
     }
 
     override fun getOrderId(): String {
@@ -89,7 +89,7 @@ class CartRepositoryImpl(
     }
 
     override fun setPaymentState(status: Int) {
-        sharedPref.edit().putInt("purchase_state", status)
+        sharedPref.edit().putInt("purchase_state", status).apply()
     }
 
     override fun getPaymentState(): Int {

@@ -422,11 +422,11 @@ fun AddToCart(
     val config = LocalConfiguration.current
     val fraction =
         if (config.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            0.15f else 0.24f
+            0.15f else 0.18f
 
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(0.93f)
             .fillMaxHeight(fraction),
         color = Color.White
     ) {
